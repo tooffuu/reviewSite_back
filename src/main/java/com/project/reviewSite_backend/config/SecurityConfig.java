@@ -14,7 +14,6 @@ import org.springframework.security.web.header.writers.frameoptions.XFrameOption
 public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http.csrf().disable();
         http.authorizeRequests().antMatchers("/**").permitAll()
                 .and()
                 .csrf().ignoringAntMatchers("/h2-console/**")
