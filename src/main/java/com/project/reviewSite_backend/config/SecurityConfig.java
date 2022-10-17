@@ -23,7 +23,10 @@ public class SecurityConfig {
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
-                .csrf().disable();
+                .csrf().disable()
+                .formLogin()
+                .loginPage("/user/login")
+                .defaultSuccessUrl("/");
 
         return http.build();
     }
