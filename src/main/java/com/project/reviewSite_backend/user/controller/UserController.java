@@ -29,14 +29,14 @@ public class UserController {
             bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지않습니다.");
             return "2개의 패스워드가 일치하지않습니다.";
         }
-
         userService.joinUser(userDto);
         return "user";
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserDto userDto) {
-        System.out.println("userID : " + userDto.getUserid());
-        return "로그인";
+    public UserDto login(@RequestBody UserDto userDto) {
+//        System.out.println("userID : " + userDto.getUserid());
+        UserDto loginedUser = userService.login(userDto);
+        return loginedUser;
     }
 }

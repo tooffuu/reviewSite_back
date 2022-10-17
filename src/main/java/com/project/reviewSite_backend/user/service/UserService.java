@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -25,5 +27,13 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+    }
+
+    public UserDto login(UserDto userDto) {
+        Optional<UserDto> opUserDto = userRepository.findByUserId(userDto.getUserid());
+        if(opUserDto.isPresent()) {
+            return userDto;
+        }
+        return null;
     }
 }
