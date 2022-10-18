@@ -1,5 +1,7 @@
 package com.project.reviewSite_backend.user.service;
 
+import com.project.reviewSite_backend.exception.PasswordNotMatchException;
+import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.UserDto;
@@ -34,11 +36,11 @@ public class UserService {
 
         if (opUser.isPresent()) {
             User loginedUser = opUser.get();
-                if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
-                    return loginedUser;
-                }
-                return null;
+            if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
+                return loginedUser;
+            }
+            throw new PasswordNotMatchException(String.format("password do not match"));
         }
-        return null;
+        throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
     }
 }

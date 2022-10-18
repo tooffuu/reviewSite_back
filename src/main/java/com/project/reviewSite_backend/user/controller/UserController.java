@@ -34,10 +34,15 @@ public class UserController {
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
-        System.out.println("user : " + user.getUserid());
-        System.out.println("password : " + user.getPassword());
+//        System.out.println("user : " + user.getUserid());
+//        System.out.println("password : " + user.getPassword());
         User loginedUser = userService.login(user);
 
         return loginedUser;
+    }
+
+    @GetMapping("/")
+    public String user() {
+        return "user";
     }
 }
