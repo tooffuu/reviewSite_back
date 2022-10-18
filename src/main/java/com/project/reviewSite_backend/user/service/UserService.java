@@ -29,26 +29,16 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    public User login(User user) {
-//        Optional<User> opUser = userRepository.findByUserid(user.getUserid());
-//        if(opUser.isPresent()) {
-//            return opUser.get();
-//        }
-//        return null;
-//    }
-
     public User login(User user) {
         Optional<User> opUser = userRepository.findByUserid(user.getUserid());
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        if(opUser.isPresent()) {
-            User loginUser = opUser.get();
-            System.out.println("boolean : " + passwordEncoder.matches(loginUser.getPassword(), user.getPassword()));
-            System.out.println("saved db password : " + loginUser.getPassword());
-            System.out.println("logined password : " + user.getPassword());
-            return loginUser;
+        if (opUser.isPresent()) {
+            User loginedUser = opUser.get();
+                if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
+                    return loginedUser;
+                }
+                return null;
         }
         return null;
     }
-
 }

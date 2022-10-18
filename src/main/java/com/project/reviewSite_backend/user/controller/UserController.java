@@ -5,10 +5,7 @@ import com.project.reviewSite_backend.user.dto.UserDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -37,16 +34,10 @@ public class UserController {
 
     @PostMapping("/login")
     public User login(@RequestBody User user) {
-//        System.out.println("userID : " + userDto.getUserid());
+        System.out.println("user : " + user.getUserid());
+        System.out.println("password : " + user.getPassword());
         User loginedUser = userService.login(user);
+
         return loginedUser;
     }
-
-//    @PostMapping("/login")
-//    public UserDto login(@RequestBody UserDto userDto) {
-//        System.out.println(userDto.getUserid());
-//        UserDto loginUser = userService.login(userDto);
-//        return loginUser;
-//    }
-
 }
