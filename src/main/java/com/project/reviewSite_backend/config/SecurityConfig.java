@@ -22,6 +22,7 @@ public class SecurityConfig {
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
                         XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN))
                 .and()
+                .cors().disable()
                 .csrf().disable()
                 .formLogin()
                 .loginPage("/user/login")

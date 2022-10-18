@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.user.controller;
 
+import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.UserDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -30,13 +31,22 @@ public class UserController {
             return "2개의 패스워드가 일치하지않습니다.";
         }
         userService.joinUser(userDto);
+
         return "user";
     }
 
     @PostMapping("/login")
-    public UserDto login(@RequestBody UserDto userDto) {
+    public User login(@RequestBody User user) {
 //        System.out.println("userID : " + userDto.getUserid());
-        UserDto loginedUser = userService.login(userDto);
+        User loginedUser = userService.login(user);
         return loginedUser;
     }
+
+//    @PostMapping("/login")
+//    public UserDto login(@RequestBody UserDto userDto) {
+//        System.out.println(userDto.getUserid());
+//        UserDto loginUser = userService.login(userDto);
+//        return loginUser;
+//    }
+
 }

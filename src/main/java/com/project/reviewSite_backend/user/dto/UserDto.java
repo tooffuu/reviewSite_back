@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 public class UserDto {
-    @Size(min = 3)
+    @Size(min = 1)
     @NotEmpty(message = "사용자 이름은 필수항목입니다.")
     private String username;
 
