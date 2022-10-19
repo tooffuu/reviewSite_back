@@ -51,7 +51,6 @@ public class UserController {
 //        return userRepository.findAll();
 //    }
 
-
     @GetMapping("/members")
     public List<UserDto> getAllUsers() {
         return userService.getAllUsers();

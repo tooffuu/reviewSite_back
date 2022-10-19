@@ -52,7 +52,6 @@ public class UserService {
                 .map(user -> {
                     UserDto userDto = new UserDto();
                     userDto.setEmail(user.getEmail());
-                    userDto.setUsername(user.getUsername());
                     userDto.setNickname(user.getNickname());
                     userDto.setUserid(user.getUserid());
                     userDto.setId(user.getId());
