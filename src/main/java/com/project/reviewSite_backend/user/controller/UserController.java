@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.user.controller;
 
+import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.UserDto;
 import com.project.reviewSite_backend.user.service.UserService;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -16,6 +18,8 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+
+    private final UserRepository userRepository;
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid UserDto userDto, BindingResult bindingResult) {
@@ -41,8 +45,8 @@ public class UserController {
         return loginedUser;
     }
 
-    @GetMapping("/")
-    public String user() {
-        return "user";
+    @GetMapping("/members")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
 }
