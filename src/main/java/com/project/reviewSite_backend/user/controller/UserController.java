@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.user.controller;
 
+import com.project.reviewSite_backend.user.CreateForm;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.UserDto;
@@ -22,16 +23,16 @@ public class UserController {
     private final UserRepository userRepository;
 
     @PostMapping("/join")
-    public String getUser(@RequestBody @Valid UserDto userDto, BindingResult bindingResult) {
+    public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
 //        System.out.println("password: " + userDto.getPassword1());
         if(bindingResult.hasErrors()) {
             return "Error";
         }
-        if(!userDto.getPassword1().equals(userDto.getPassword2())) {
+        if(!createForm.getPassword1().equals(createForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지않습니다.");
             return "2개의 패스워드가 일치하지않습니다.";
         }
-        userService.joinUser(userDto);
+        userService.joinUser(createForm);
 
         return "user";
     }
@@ -45,8 +46,16 @@ public class UserController {
         return loginedUser;
     }
 
+//    @GetMapping("/members")
+//    public List<User> getAllUsers() {
+//        return userRepository.findAll();
+//    }
+
+
     @GetMapping("/members")
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers();
     }
+
+
 }
