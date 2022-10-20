@@ -62,4 +62,7 @@ public class UserService {
         return userDtos;
     }
 
+    public boolean checkUseridDuplicate(String userid) {
+        return userRepository.existsByUserid(userid);
+    }
 }

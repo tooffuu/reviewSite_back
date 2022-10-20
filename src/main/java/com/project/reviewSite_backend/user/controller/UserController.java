@@ -3,14 +3,13 @@ package com.project.reviewSite_backend.user.controller;
 import com.project.reviewSite_backend.user.CreateForm;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
-import com.project.reviewSite_backend.user.dto.UserDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -24,7 +23,7 @@ public class UserController {
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
-//        System.out.println("password: " + userDto.getPassword1());
+//        System.out.println("password : " + createForm.getPassword1());
         if(bindingResult.hasErrors()) {
             return "Error";
         }
@@ -46,14 +45,21 @@ public class UserController {
         return loginedUser;
     }
 
+//    전체 유저의 전체 정보 가져오기
 //    @GetMapping("/members")
 //    public List<User> getAllUsers() {
 //        return userRepository.findAll();
 //    }
 
-    @GetMapping("/members")
-    public List<UserDto> getAllUsers() {
-        return userService.getAllUsers();
+//    전체 유저의 패스워드 제외한 정보 가져오기
+//    @GetMapping("/members")
+//    public List<UserDto> getAllUsers() {
+//        return userService.getAllUsers();
+//    }
+
+    @GetMapping("/user-id/{userid}/exists")
+    public ResponseEntity<Boolean> checkUseridDuplicate(@PathVariable String userid) {
+        return ResponseEntity.ok(userService.checkUseridDuplicate(userid));
     }
 
 
