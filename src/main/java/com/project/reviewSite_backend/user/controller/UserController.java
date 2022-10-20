@@ -52,15 +52,23 @@ public class UserController {
 //    }
 
 //    전체 유저의 패스워드 제외한 정보 가져오기
-//    @GetMapping("/members")
+//    @GetMapping("/checked")
 //    public List<UserDto> getAllUsers() {
 //        return userService.getAllUsers();
 //    }
 
-    @GetMapping("/user-id/{userid}/exists")
+    @GetMapping("/{userid}/userid")
     public ResponseEntity<Boolean> checkUseridDuplicate(@PathVariable String userid) {
         return ResponseEntity.ok(userService.checkUseridDuplicate(userid));
     }
 
+    @GetMapping("/{nickname}/nickname")
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname) {
+        return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
+    }
+    @GetMapping("/{email}/email")
+    public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email) {
+        return ResponseEntity.ok(userService.checkEmailDuplicate(email));
+    }
 
 }

@@ -65,4 +65,12 @@ public class UserService {
     public boolean checkUseridDuplicate(String userid) {
         return userRepository.existsByUserid(userid);
     }
+
+    public boolean checkNicknameDuplicate(String nickname) {
+        return userRepository.existsByNickname(nickname);
+    }
+
+    public boolean checkEmailDuplicate(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
