@@ -12,10 +12,11 @@ public class CreateForm {
     @NotEmpty(message = "사용자 이름은 필수항목입니다.")
     private String username;
 
+    @Size(min = 1, max = 15)
     @NotEmpty(message = "닉네임은 필수항목입니다.")
     private String nickname;
 
-    @Size(min = 3, max = 25)
+    @Size(min = 3, max = 15)
     @NotEmpty(message = "사용자 ID는 필수항목입니다.")
     private String userid;
 
