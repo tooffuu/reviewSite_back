@@ -5,12 +5,10 @@ import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.CreateForm;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
-import com.project.reviewSite_backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,21 +44,21 @@ public class UserService {
         throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
     }
 
-    public List<UserDto> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        List<UserDto> userDtos = users.stream()
-                .map(user -> {
-                    UserDto userDto = new UserDto();
-                    userDto.setEmail(user.getEmail());
-                    userDto.setNickname(user.getNickname());
-                    userDto.setUserid(user.getUserid());
-                    userDto.setId(user.getId());
-                    return userDto;
-                })
-                .toList();
-
-        return userDtos;
-    }
+//    public List<UserDto> getAllUsers() {
+//        List<User> users = userRepository.findAll();
+//        List<UserDto> userDtos = users.stream()
+//                .map(user -> {
+//                    UserDto userDto = new UserDto();
+//                    userDto.setEmail(user.getEmail());
+//                    userDto.setNickname(user.getNickname());
+//                    userDto.setUserid(user.getUserid());
+//                    userDto.setId(user.getId());
+//                    return userDto;
+//                })
+//                .toList();
+//
+//        return userDtos;
+//    }
 
     public boolean checkUseridDuplicate(String userid) {
         return userRepository.existsByUserid(userid);
