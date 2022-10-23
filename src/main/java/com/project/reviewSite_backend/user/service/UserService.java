@@ -73,4 +73,8 @@ public class UserService {
     public boolean checkEmailDuplicate(String email) {
         return userRepository.existsByEmail(email);
     }
+
+    public User modifynickname(User user) {
+        return userRepository.save(user);
+    }
 }

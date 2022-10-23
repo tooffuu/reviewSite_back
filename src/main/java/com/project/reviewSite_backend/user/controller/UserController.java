@@ -71,4 +71,12 @@ public class UserController {
         return ResponseEntity.ok(userService.checkEmailDuplicate(email));
     }
 
+    @PostMapping("/modify")
+    public Boolean modiyNickname(@RequestBody User user) {
+        userService.modifynickname(user);
+
+        return true;
+    }
+
+
 }
