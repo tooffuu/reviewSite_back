@@ -74,7 +74,16 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User modifynickname(User user) {
-        return userRepository.save(user);
+    public boolean modifynickname(User user) {
+
+        boolean b;
+
+        if (userRepository.save(user) == null) {
+            b = false;
+        } else {
+            b = true;
+        }
+
+        return b;
     }
 }
