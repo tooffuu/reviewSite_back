@@ -72,9 +72,8 @@ public class UserController {
     }
 
     @PostMapping("/modify")
-    public Boolean modiyNickname(@RequestBody User user) {
+    public boolean modiyNickname(@RequestBody User user) {
         userService.modifynickname(user);
-
         return true;
     }
 
