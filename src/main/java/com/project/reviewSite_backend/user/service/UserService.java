@@ -48,15 +48,6 @@ public class UserService {
         throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
     }
 
-    public User deleteById(User user) {
-        Optional<User> deleteOpUser = userRepository.findById(user.getId());
-
-        if (deleteOpUser.isPresent()) {
-            User deletedUser = deleteOpUser.get();
-            return deletedUser;
-        } throw new UserNotFoundException(String.format("%s not found", user.getId()));
-    }
-
     public List<UserDto> getAllUsers() {
         List<User> users = userRepository.findAll();
         List<UserDto> userDtos = users.stream()
@@ -96,6 +87,12 @@ public class UserService {
         }
 
         return b;
+    }
+
+    public User deleteById(Long id){
+        userRepository.deleteById(id);
+
+        return deleteById(id);
     }
 
 
