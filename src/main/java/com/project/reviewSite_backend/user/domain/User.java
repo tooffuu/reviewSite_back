@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.user.domain;
 
+import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
@@ -30,4 +31,7 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
 }
