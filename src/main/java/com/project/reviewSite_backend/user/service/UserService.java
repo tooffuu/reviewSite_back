@@ -104,4 +104,34 @@ public class UserService {
     }
 
 
+//    public String findId(String username, String email) {
+//       User user = userRepository.findByUsernameAndEmail(username, email);
+//
+//        if(user == null) {
+//            System.out.println("null 값");
+//            return null;
+//        }
+//
+//        System.out.println("들어온 유저아이디 : " + user.getUserid());
+//        return user.getUserid();
+//    }
+
+
+//    public User findUserId(User user) {
+//        Optional<User> opFindUserId = userRepository.findByUsernameAndEmail(user.getUsername(), user.getEmail());
+//
+//        if (opFindUserId.isPresent()) {
+//            User checkUser = opFindUserId.get();
+//        }
+//        throw new UserNotFoundException("존재하는 정보가 없습니다");
+//    }
+
+//    public User findUserId(FindIdDto findIdDto) {
+//        Optional<FindIdDto> optionalFindIdDto = userRepository.findByUsernameAndEmail(findIdDto.getUsername(), findIdDto.getEmail());
+//
+//        if (optionalFindIdDto.isPresent()) {
+//            FindIdDto checkUser = optionalFindIdDto.get();
+//        }
+//        throw new UserNotFoundException("존재하는 정보가 없습니다.");
+//    }
 }

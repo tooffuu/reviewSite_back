@@ -1,7 +1,6 @@
 package com.project.reviewSite_backend.user.controller;
 
 import com.project.reviewSite_backend.user.CreateForm;
-import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,6 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-
-    private final UserRepository userRepository;
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
@@ -72,7 +69,7 @@ public class UserController {
     }
 
     @PostMapping("/modify")
-    public boolean modiyNickname(@RequestBody User user) {
+    public boolean modifyNickname(@RequestBody User user) {
         userService.modifynickname(user);
         return true;
     }
@@ -83,6 +80,37 @@ public class UserController {
 
         return deleteUser;
     }
+
+//    @ResponseBody
+//    @GetMapping("/findId")
+//    public ResponseEntity<String> findId(@RequestParam("username") String username, @RequestParam("email") String email) {
+//        String userId = userService.findId(username, email);
+//        if (userId == null) {
+//            return ResponseEntity.status(HttpStatus.CONFLICT).body("ID를 찾지 못했습니다.");
+//        }
+//        return ResponseEntity.ok("불러온 유저 아이디 : " + userId);
+//    }
+
+//    @PostMapping("/findId")
+//    public FindIdDto findId(@RequestBody FindIdDto findIdDto) {
+//        System.out.println("user : " + findIdDto.getUserid());
+//        System.out.println("controller : " + findIdDto.getUserid());
+//        User findUserId = userService.findUserId(findIdDto);
+//
+//
+//        return findIdDto;
+//    }
+
+
+
+
+
+
+
+
+
+
+
 
 
 }
