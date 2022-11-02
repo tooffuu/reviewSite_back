@@ -4,6 +4,7 @@ import com.project.reviewSite_backend.user.CreateForm;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +22,10 @@ public class UserController {
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
 //        System.out.println("password : " + createForm.getPassword1());
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "Error";
         }
-        if(!createForm.getPassword1().equals(createForm.getPassword2())) {
+        if (!createForm.getPassword1().equals(createForm.getPassword2())) {
             bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지않습니다.");
             return "2개의 패스워드가 일치하지않습니다.";
         }
@@ -63,6 +64,7 @@ public class UserController {
     public ResponseEntity<Boolean> checkNicknameDuplicate(@PathVariable String nickname) {
         return ResponseEntity.ok(userService.checkNicknameDuplicate(nickname));
     }
+
     @GetMapping("/{email}/email")
     public ResponseEntity<Boolean> checkEmailDuplicate(@PathVariable String email) {
         return ResponseEntity.ok(userService.checkEmailDuplicate(email));
@@ -81,36 +83,15 @@ public class UserController {
         return deleteUser;
     }
 
-//    @ResponseBody
-//    @GetMapping("/findId")
-//    public ResponseEntity<String> findId(@RequestParam("username") String username, @RequestParam("email") String email) {
-//        String userId = userService.findId(username, email);
-//        if (userId == null) {
-//            return ResponseEntity.status(HttpStatus.CONFLICT).body("ID를 찾지 못했습니다.");
-//        }
-//        return ResponseEntity.ok("불러온 유저 아이디 : " + userId);
-//    }
-
-//    @PostMapping("/findId")
-//    public FindIdDto findId(@RequestBody FindIdDto findIdDto) {
-//        System.out.println("user : " + findIdDto.getUserid());
-//        System.out.println("controller : " + findIdDto.getUserid());
-//        User findUserId = userService.findUserId(findIdDto);
-//
-//
-//        return findIdDto;
-//    }
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @ResponseBody
+    @GetMapping("/findId")
+    public ResponseEntity<String> findId(@RequestParam("username") String username, @RequestParam("email") String email) {
+        String userId = userService.findId(username, email);
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("ID를 찾지 못했습니다.");
+        }
+        System.out.println(username);
+        System.out.println(email);
+        return ResponseEntity.ok(userId);
+    }
 }
