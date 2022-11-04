@@ -1,4 +1,4 @@
-package com.project.reviewSite_backend.user;
+package com.project.reviewSite_backend.user.dto;
 
 import lombok.Data;
 
