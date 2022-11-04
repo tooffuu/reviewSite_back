@@ -1,7 +1,10 @@
 package com.project.reviewSite_backend.user.controller;
 
-import com.project.reviewSite_backend.user.CreateForm;
+import com.project.reviewSite_backend.exception.UserNotFoundException;
+import com.project.reviewSite_backend.user.dto.CreateForm;
+import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
+import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +21,7 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
@@ -83,6 +87,7 @@ public class UserController {
         return deleteUser;
     }
 
+    // 아이디 찾기
     @ResponseBody
     @GetMapping("/findId")
     public ResponseEntity<String> findId(@RequestParam("username") String username, @RequestParam("email") String email) {
@@ -90,8 +95,25 @@ public class UserController {
         if (userId == null) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("ID를 찾지 못했습니다.");
         }
-        System.out.println(username);
-        System.out.println(email);
         return ResponseEntity.ok(userId);
+    }
+
+    // 비밀번호 변경 전 유저 정보 확인
+    @ResponseBody
+    @GetMapping("/updatePw")
+    public ResponseEntity<User> findPassword(@RequestParam("username") String username, @RequestParam("userid") String userid, @RequestParam("email") String email) {
+        User userPw = userService.findPw(username, userid, email);
+        if (userPw == null) {
+            throw new UserNotFoundException("user not found");
+        }
+        return ResponseEntity.ok(userPw);
+    }
+
+    // 비밀번호 변경하기
+    @PatchMapping("/updatePw/{id}")
+    public Long update(@PathVariable Long id, @RequestBody UpdatePasswordDto updatePasswordDto) {
+        userService.updatePW(id, updatePasswordDto);
+
+        return null;
     }
 }
