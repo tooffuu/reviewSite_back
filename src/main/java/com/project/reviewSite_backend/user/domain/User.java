@@ -1,11 +1,14 @@
 package com.project.reviewSite_backend.user.domain;
 
+
+import com.project.reviewSite_backend.detail.domain.Heart;
+import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -16,7 +19,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     private String userid;
 
     @Column(nullable = false)
@@ -30,4 +33,19 @@ public class User {
 
     @Column(unique = true, nullable = false)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole userRole;
+
+    @OneToMany (
+            mappedBy = "user",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true,
+            fetch = FetchType.LAZY
+    )
+    private List<Heart> hearts;
+
+    public void update(String password1, String password2) {
+        this.password = password1;
+    }
 }
