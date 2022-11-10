@@ -1,15 +1,12 @@
 package com.project.reviewSite_backend.detail;
 
-import com.project.reviewSite_backend.answer.Answer;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
-import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,10 +43,6 @@ private final EntityManager em;
         Optional<Detail> detail = this.detailRepository.findById(id);//답글 아이디 찾기
         return detail.orElseThrow(() -> new PasswordNotMatchException("answer not found"));//오류 확인문
     }
-
-
-
-
 
     public List<Detail> findAll(){
 
