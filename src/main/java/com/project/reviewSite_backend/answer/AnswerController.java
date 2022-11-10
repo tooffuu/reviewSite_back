@@ -1,21 +1,20 @@
 package com.project.reviewSite_backend.answer;
 
 
-import com.project.reviewSite_backend.detail.Detail;
-import com.project.reviewSite_backend.detail.DetailDto;
-import com.project.reviewSite_backend.detail.DetailRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.parameters.P;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
 public class AnswerController {
 
+    private  final  AnswerRepository answerRepository;
     private final AnswerService answerService;
 
 //    @PostMapping("/create/{id}")
@@ -31,14 +30,16 @@ public class AnswerController {
 //            return this.answerService.idpost(answerVo);
 //
 //    }
-//    @PostMapping("/detail/star")
-//    public Answer starin(@RequestBody AnswerVo answerVo,@RequestBody User user) {
-//
-//        return this.answerService.starin(answerVo, user);
-//
-//    }
-//    @PostMapping("/detail/content")
-//    public Answer contentin (@RequestBody AnswerVo answerVo){
-//
-//    }
+    @PostMapping("/detail/star")
+    public Answer starin(@RequestBody AnswerVo answerVo) {
+
+        return this.answerService.starin(answerVo);
+
+    }
+    @GetMapping("/detail/get")
+    public List<Answer> getAllcontent(){
+        return answerRepository.findAll();
+
+    }
+
 }
