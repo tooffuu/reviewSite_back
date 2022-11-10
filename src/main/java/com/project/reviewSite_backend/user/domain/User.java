@@ -9,8 +9,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.List;
 
-@Getter
-@Setter
+@Data
 @Entity
 @Builder
 @AllArgsConstructor
@@ -39,4 +38,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
+
+    public void update(String password1, String password2) {
+        this.password = password1;
+    }
 }

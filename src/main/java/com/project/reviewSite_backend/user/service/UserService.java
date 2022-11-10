@@ -2,14 +2,17 @@ package com.project.reviewSite_backend.user.service;
 
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
-import com.project.reviewSite_backend.user.CreateForm;
+import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.UserRole;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
+import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,15 +49,6 @@ public class UserService {
             throw new PasswordNotMatchException(String.format("password do not match"));
         }
         throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
-    }
-
-    public User deleteById(User user) {
-        Optional<User> deleteOpUser = userRepository.findById(user.getId());
-
-        if (deleteOpUser.isPresent()) {
-            User deletedUser = deleteOpUser.get();
-            return deletedUser;
-        } throw new UserNotFoundException(String.format("%s not found", user.getId()));
     }
 
     public List<UserDto> getAllUsers() {
@@ -98,5 +92,46 @@ public class UserService {
         return b;
     }
 
+    public User deleteById(Long id) {
+        try {
+            userRepository.deleteById(id);
 
+            return deleteById(id);
+
+        } catch (EmptyResultDataAccessException e) {
+
+            return null;
+        }
+
+    }
+
+    public String findId(String username, String email) {
+        User user = userRepository.findByUsernameAndEmail(username, email);
+
+        if (user == null) {
+            return null;
+        }
+
+        return user.getUserid();
+    }
+
+    public User findPw(String username, String userid, String email) {
+        User user = userRepository.findByUsernameAndUseridAndEmail(username, userid, email);
+
+        if (user == null) {
+            return null;
+        }
+        return user;
+    }
+
+    public Long updatePW(Long id, UpdatePasswordDto updatePasswordDto) {
+        User modifyPw = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException());
+
+        if ((updatePasswordDto.getPassword1()).equals(updatePasswordDto.getPassword2())) {
+            modifyPw.update(passwordEncoder.encode(updatePasswordDto.getPassword1()), updatePasswordDto.getPassword2());
+            return userRepository.save(modifyPw).getId();
+        }
+        throw new PasswordNotMatchException(String.format("패스워드가 일치하지 않습니다."));
+    }
 }
