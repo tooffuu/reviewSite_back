@@ -1,9 +1,13 @@
 package com.project.reviewSite_backend.user.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.reviewSite_backend.answer.Answer;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
