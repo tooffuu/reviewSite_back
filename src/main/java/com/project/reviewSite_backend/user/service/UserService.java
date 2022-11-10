@@ -70,6 +70,10 @@ public class UserService {
     public boolean checkUseridDuplicate(String userid) {
         return userRepository.existsByUserid(userid);
     }
+    public User getUser(String username) {
+        Optional<User> user = userRepository.findByUserid(username);
+        return user.orElseThrow(() -> new UserNotFoundException("siteuser not found"));
+    }
 
     public boolean checkNicknameDuplicate(String nickname) {
         return userRepository.existsByNickname(nickname);
