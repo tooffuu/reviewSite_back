@@ -1,7 +1,7 @@
 package com.project.reviewSite_backend.user.domain;
 
-
-import com.project.reviewSite_backend.detail.domain.Heart;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
@@ -36,14 +36,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-
-    @OneToMany (
-            mappedBy = "user",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true,
-            fetch = FetchType.LAZY
-    )
-    private List<Heart> hearts;
 
     public void update(String password1, String password2) {
         this.password = password1;

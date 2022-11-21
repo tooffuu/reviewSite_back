@@ -84,7 +84,7 @@ public class UserController {
     public User deleteUser(@PathVariable Long id, User user) {
         User deleteUser = userService.deleteById(id);
 
-        return deleteUser;
+            return deleteUser;
     }
 
     // 아이디 찾기

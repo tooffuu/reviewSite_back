@@ -6,6 +6,7 @@ import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.UserRole;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
+import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
