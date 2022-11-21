@@ -1,14 +1,11 @@
 package com.project.reviewSite_backend.heart.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.reviewSite_backend.heart.dao.HeartRepository;
 import com.project.reviewSite_backend.heart.domain.Heart;
-import com.project.reviewSite_backend.heart.dto.HeartDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -16,27 +13,27 @@ public class HeartService {
 
     private final HeartRepository heartRepository;
 
-    public void clickHeart(HeartDto heartDto) {
-        Heart heart = Heart.builder()
-                .postid(heartDto.getPostid())
-                .userid(heartDto.getUserid())
-                .build();
+    public void clickHeart(Heart heart) {
+        Optional<Heart> byHeartAndUser = heartRepository.findByUseridAndPostid(heart.getUserid(), heart.getPostid());
 
-        heartRepository.save(heart);
+        byHeartAndUser.ifPresentOrElse(
+                clickHeart -> {
+
+                    heartRepository.deleteByUseridAndPostid(heart.getUserid(), heart.getPostid());
+                },
+                () -> {
+                    Heart heartUser = Heart.builder()
+                            .postid(heart.getPostid())
+                            .userid(heart.getUserid())
+                            .build();
+
+                    heartRepository.save(heartUser);
+                }
+        );
     }
 
     public boolean checkClickHeartDuplicate(String userid, String postid) {
         return heartRepository.existsByUseridAndPostid(userid, postid);
     }
 
-
-    public HeartDto deleteByUseridAndPostid(String userid, String postid) {
-        try {
-            heartRepository.deleteByUseridAndPostid(userid, postid);
-            return deleteByUseridAndPostid(userid, postid);
-
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
-    }
 }
