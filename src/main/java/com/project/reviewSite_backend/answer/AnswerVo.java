@@ -8,7 +8,7 @@ import lombok.Getter;
 
 public class AnswerVo {
 
-    private String get_detail_id;
+    private Long detail_id;
 
     private String content;//리뷰냐용
 
