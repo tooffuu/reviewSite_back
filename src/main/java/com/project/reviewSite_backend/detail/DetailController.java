@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.detail;
 
+
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("")
+@RequestMapping("/api/v1")
 public class DetailController {
 
     private final DetailService detailService;
@@ -23,18 +24,9 @@ public class DetailController {
 
         return this.detailService.create(detailVo);
     }
-    @GetMapping("/get")
-    public List<Detail> get (){
-        return this.detailService.findAll();
-
-    }
-
-    @PreAuthorize("isAuthenticated()")
-    @GetMapping("/like/{id}")
-    public String detailLike(User user, @PathVariable("id") Integer id) {
-        Detail detail = this.detailService.getDetail(id);
-        this.detailService.likes(detail, user);
-        return "";
-    }
-
 }
+//    @GetMapping("/get")
+//    public List<Detail> get (){
+//        return this.detailService.findAll();
+//
+//    }
