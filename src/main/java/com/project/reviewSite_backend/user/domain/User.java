@@ -1,8 +1,7 @@
 package com.project.reviewSite_backend.user.domain;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.reviewSite_backend.answer.Answer;
+import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
@@ -37,7 +36,6 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
-
 
     public void update(String password1, String password2) {
         this.password = password1;
