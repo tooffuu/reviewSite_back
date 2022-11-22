@@ -63,6 +63,18 @@ public class AnswerService {
         }
     }
 
+    public StarcountDto staravg(Long detailId) {
+        StarcountDto starcountDto = new StarcountDto();
+        List<Answer> getstar = answerRepository.findByDetailId(detailId);
+        Long avg = 0L;
+        for (Answer answer : getstar) {
+            avg += answer.getStar();
+        }
+        starcountDto.setCount(getstar.size());
+        starcountDto.setStar( (double) avg / getstar.size());
+        return  starcountDto;
+    }
+
 
 
 }

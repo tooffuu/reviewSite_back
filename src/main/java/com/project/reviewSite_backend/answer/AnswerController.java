@@ -61,7 +61,7 @@ public class AnswerController {
         return this.answerService.answers(detailId);
     }
     //-------------------------------------------------------------------------------------
-
+//-리뷰 삭제 로직
 
     @DeleteMapping("/delete/{id}")
     public Answer deleteAnswer(@PathVariable Long id, Answer answer) {
@@ -70,7 +70,10 @@ public class AnswerController {
         return deleteanswer;
     }
 
+    @GetMapping("/staravg")
+    public StarcountDto staravg(@RequestParam("detailId") Long detailId) {
+        return this.answerService.staravg(detailId);
 
-
+    }
 
 }
