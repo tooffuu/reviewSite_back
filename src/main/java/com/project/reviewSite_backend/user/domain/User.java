@@ -1,7 +1,6 @@
 package com.project.reviewSite_backend.user.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.reviewSite_backend.heart.dto.HeartDto;
+import com.project.reviewSite_backend.heart.domain.Heart;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
@@ -20,6 +19,9 @@ public class User {
     private Long id;
 
     @Column(unique = true, nullable = false)
+    @OneToMany(mappedBy = "user")
+    private List<Heart> details;
+
     private String userid;
 
     @Column(nullable = false)
@@ -40,4 +42,5 @@ public class User {
     public void update(String password1, String password2) {
         this.password = password1;
     }
+
 }
