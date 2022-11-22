@@ -75,9 +75,9 @@ public class UserController {
     }
 
     @PostMapping("/modify")
-    public boolean modifyNickname(@RequestBody User user) {
+    public User modifyNickname(@RequestBody User user) {
         userService.modifynickname(user);
-        return true;
+        return user;
     }
 
     @DeleteMapping("/delete/{id}")
