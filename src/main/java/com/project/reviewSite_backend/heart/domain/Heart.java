@@ -1,14 +1,13 @@
 package com.project.reviewSite_backend.heart.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.reviewSite_backend.heart.dto.HeartDto;
+import com.project.reviewSite_backend.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@Entity
+@Entity(name="heart")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -22,5 +21,8 @@ public class Heart {
 
     @Column(nullable = false)
     private String postid;
+
+    @ManyToOne
+    private User user;
 
 }
