@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface HeartRepository extends JpaRepository<Heart, Long> {
     boolean existsByUseridAndPostid(String userid, String postid);
 
-
     @Transactional
     void deleteByUseridAndPostid(String userid, String postid);
 
