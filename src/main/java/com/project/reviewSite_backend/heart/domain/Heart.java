@@ -1,6 +1,5 @@
 package com.project.reviewSite_backend.heart.domain;
 
-import com.project.reviewSite_backend.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,8 +20,5 @@ public class Heart {
 
     @Column(nullable = false)
     private String postid;
-
-    @ManyToOne
-    private User user;
 
 }

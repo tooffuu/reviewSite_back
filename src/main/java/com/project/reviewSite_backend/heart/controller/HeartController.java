@@ -1,6 +1,6 @@
 package com.project.reviewSite_backend.heart.controller;
 
-import com.project.reviewSite_backend.heart.domain.Heart;
+import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.heart.service.HeartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +16,9 @@ public class HeartController {
     private final HeartService heartService;
 
     @PostMapping("/heart")
-    public String heart(@RequestBody @Valid Heart heart) {
+    public String heart(@RequestBody @Valid HeartDto heartDto) {
 
-        heartService.clickHeart(heart);
+        heartService.clickHeart(heartDto);
 
         return "좋아요 눌림";
     }
