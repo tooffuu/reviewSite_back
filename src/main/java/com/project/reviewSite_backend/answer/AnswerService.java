@@ -29,7 +29,6 @@ public class AnswerService {
 
     public Answer starin(AnswerVo answerVo) {
 
-
         Answer d = new Answer();
         d.setStar(answerVo.getStar());
         d.setContent(answerVo.getContent());
@@ -39,6 +38,24 @@ public class AnswerService {
         this.answerRepository.save(d);
         return d;
     }
+
+    public boolean updateContent(AnswerVo answerVo) {
+        Optional<Answer> opContent = this.answerRepository.findById(answerVo.getId());
+        System.out.println(answerVo);
+        if (opContent.isPresent()) {
+            Answer content = opContent.get();
+            content.setId(answerVo.getId());
+            content.setContent(answerVo.getContent());
+            content.setStar(answerVo.getStar());
+            content.setCreateDate(LocalDateTime.now());
+            this.answerRepository.save(content);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 //    public Answer getDetail_id(String id) {
 //        Optional<Answer> answer = this.answerRepository.findBy(id);//답글 아이디 찾기
 //        return answer.orElseThrow(() -> new PasswordNotMatchException("answer not found"));//오류 확인문
@@ -71,10 +88,9 @@ public class AnswerService {
             avg += answer.getStar();
         }
         starcountDto.setCount(getstar.size());
-        starcountDto.setStar( (double) avg / getstar.size());
-        return  starcountDto;
+        starcountDto.setStar((double) avg / getstar.size());
+        return starcountDto;
     }
-
 
 
 }

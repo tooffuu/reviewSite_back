@@ -1,9 +1,14 @@
 package com.project.reviewSite_backend.answer;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class AnswerDto {
 
-    private String get_detail_id;
+    private Integer star;
+
+    private String content;
 }

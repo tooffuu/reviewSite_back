@@ -76,4 +76,11 @@ public class AnswerController {
 
     }
 
+    @PatchMapping("/update/content")
+    public boolean update(@RequestBody AnswerVo answerVo) {
+        System.out.println(answerVo.getId());
+        return this.answerService.updateContent(answerVo);
+    }
+
+
 }
