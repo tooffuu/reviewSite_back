@@ -10,8 +10,4 @@ import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
     List<Answer> findByDetailId(Long detailId);
-
-    List<Answer> deleteByDetailId(Long detailId);
-
-
 }
