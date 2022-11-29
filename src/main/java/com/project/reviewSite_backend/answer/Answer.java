@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long id;// 생성 id키값
 
     @Column(columnDefinition = "TEXT")
     private String content;// 리뷰내용
@@ -26,9 +26,5 @@ public class Answer {
     private Long detailId;// 디테일페이지 접근
 
     private String nickname;//유저 별명
-
-//    @ManyToOne
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
 }

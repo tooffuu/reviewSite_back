@@ -9,7 +9,6 @@ import lombok.Setter;
 public class StarcountDto {
 
     private double star;
-
     private Integer count;
 
 }
