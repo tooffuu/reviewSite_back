@@ -1,17 +1,7 @@
 package com.project.reviewSite_backend.answer;
-
-import com.project.reviewSite_backend.detail.Detail;
-import com.project.reviewSite_backend.detail.DetailRepository;
-import com.project.reviewSite_backend.exception.PasswordNotMatchException;
-import com.project.reviewSite_backend.user.dao.UserRepository;
-import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -21,12 +11,8 @@ import java.util.Optional;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    private final DetailRepository detailRepository;
-
-    @PersistenceContext
-    private EntityManager em;
-
-
+    //-----------------------------------------------------------------------------------
+    //생성하는 로직
     public Answer starin(AnswerVo answerVo) {
 
         Answer d = new Answer();
@@ -38,7 +24,8 @@ public class AnswerService {
         this.answerRepository.save(d);
         return d;
     }
-
+    //-----------------------------------------------------------------------------------
+    //리뷰 업데이트 컴포넌트
     public boolean updateContent(AnswerVo answerVo) {
         Optional<Answer> opContent = this.answerRepository.findById(answerVo.getId());
         System.out.println(answerVo);
@@ -55,31 +42,25 @@ public class AnswerService {
         }
 
     }
-
-//    public Answer getDetail_id(String id) {
-//        Optional<Answer> answer = this.answerRepository.findBy(id);//답글 아이디 찾기
-//        return answer.orElseThrow(() -> new PasswordNotMatchException("answer not found"));//오류 확인문
-//    }
-
-
+    //-----------------------------------------------------------------------------------
+    //디테일 아이디로 데이터 불러오기
     public List<Answer> answers(Long DetailId) {
-
         return this.answerRepository.findByDetailId(DetailId);
     }
-
-
+    //-----------------------------------------------------------------------------------
+    //id값으로 삭제하는 로직
     public Answer deleteById(Long id) {
         try {
             answerRepository.deleteById(id);
 
             return deleteById(id);
         } catch (
-                EmptyResultDataAccessException e) {
-
+                EmptyResultDataAccessException e) {//오류 예외
             return null;
         }
     }
-
+    //------------------------------------------------------------------------------------
+    //평점 평균구하는 로직
     public StarcountDto staravg(Long detailId) {
         StarcountDto starcountDto = new StarcountDto();
         List<Answer> getstar = answerRepository.findByDetailId(detailId);

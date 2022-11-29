@@ -5,10 +5,10 @@ import lombok.Getter;
 
 @Getter
 public class AnswerVo {
-    private Long id;
-    private Long detail_id;
+    private Long id;//id키값
+    private Long detail_id;//가게번호
     private String content;//리뷰냐용
     private Integer star;//평점
-    private String userid;
-    private String nickname;
+    private String userid;//아이디
+    private String nickname;//닉네임
 }
