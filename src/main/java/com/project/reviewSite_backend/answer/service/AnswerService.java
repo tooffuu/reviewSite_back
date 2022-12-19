@@ -1,4 +1,8 @@
-package com.project.reviewSite_backend.answer;
+package com.project.reviewSite_backend.answer.service;
+import com.project.reviewSite_backend.answer.dto.AnswerVo;
+import com.project.reviewSite_backend.answer.dto.StarcountDto;
+import com.project.reviewSite_backend.answer.dao.AnswerRepository;
+import com.project.reviewSite_backend.answer.domain.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;

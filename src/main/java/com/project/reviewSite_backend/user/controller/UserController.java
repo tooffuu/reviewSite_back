@@ -1,9 +1,9 @@
 package com.project.reviewSite_backend.user.controller;
 
 import com.project.reviewSite_backend.exception.UserNotFoundException;
-import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
+import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,6 @@ public class UserController {
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
-//        System.out.println("password : " + createForm.getPassword1());
         if (bindingResult.hasErrors()) {
             return "Error";
         }
@@ -39,17 +38,19 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
+    public CreateForm login(@RequestBody User user) {
 
-        User loginedUser = userService.login(user);
+        CreateForm loginedUser = userService.login(user);
 
         return loginedUser;
     }
 
 //    전체 유저의 전체 정보 가져오기
 //    @GetMapping("/members")
-//    public List<User> getAllUsers() {
-//        return userRepository.findAll();
+//    public List<CreateForm> getAllUsers() {
+//       List<CreateForm> createForm = userService.findAllUser();
+//
+//       return createForm;
 //    }
 
 //    전체 유저의 패스워드 제외한 정보 가져오기
@@ -80,10 +81,10 @@ public class UserController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public User deleteUser(@PathVariable Long id, User user) {
-        User deleteUser = userService.deleteById(id);
+    public CreateForm deleteUser(@PathVariable Long id) {
+        CreateForm deleteUser = userService.deleteById(id);
 
-            return deleteUser;
+        return deleteUser;
     }
 
     // 아이디 찾기
@@ -100,8 +101,8 @@ public class UserController {
     // 비밀번호 변경 전 유저 정보 확인
     @ResponseBody
     @GetMapping("/updatePw")
-    public ResponseEntity<User> findPassword(@RequestParam("username") String username, @RequestParam("userid") String userid, @RequestParam("email") String email) {
-        User userPw = userService.findPw(username, userid, email);
+    public ResponseEntity<CreateForm> findPassword(@RequestParam("username") String username, @RequestParam("userid") String userid, @RequestParam("email") String email) {
+        CreateForm userPw = userService.findPw(username, userid, email);
         if (userPw == null) {
             throw new UserNotFoundException("user not found");
         }

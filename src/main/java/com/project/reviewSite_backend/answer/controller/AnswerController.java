@@ -1,5 +1,10 @@
-package com.project.reviewSite_backend.answer;
+package com.project.reviewSite_backend.answer.controller;
 
+import com.project.reviewSite_backend.answer.service.AnswerService;
+import com.project.reviewSite_backend.answer.dto.AnswerVo;
+import com.project.reviewSite_backend.answer.dto.StarcountDto;
+import com.project.reviewSite_backend.answer.dao.AnswerRepository;
+import com.project.reviewSite_backend.answer.domain.Answer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,7 +48,7 @@ public class AnswerController {
 
     //-------------------------------------------------------------------------------------
     //디테일 아이디로 데이터값 불러오는 컨트롤러
-    @GetMapping("/sartavg")
+    @GetMapping("/staravg")
     public StarcountDto staravg(@RequestParam("detailId") Long detailId) {
         return this.answerService.staravg(detailId);
     }

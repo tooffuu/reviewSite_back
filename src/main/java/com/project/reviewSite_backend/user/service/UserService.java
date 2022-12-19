@@ -2,16 +2,15 @@ package com.project.reviewSite_backend.user.service;
 
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
-import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.UserRole;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
+import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.Optional;
 
@@ -36,34 +35,19 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public User login(User user) {
+    public CreateForm login(User user) {
         Optional<User> opUser = userRepository.findByUserid(user.getUserid());
 
         if (opUser.isPresent()) {
             User loginedUser = opUser.get();
             if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
-                return loginedUser;
+                CreateForm createForm = new CreateForm(loginedUser);
+                return createForm;
             }
             throw new PasswordNotMatchException(String.format("password do not match"));
         }
         throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
     }
-
-//    public List<UserDto> getAllUsers() {
-//        List<User> users = userRepository.findAll();
-//        List<UserDto> userDtos = users.stream()
-//                .map(user -> {
-//                    UserDto userDto = new UserDto();
-//                    userDto.setEmail(user.getEmail());
-//                    userDto.setNickname(user.getNickname());
-//                    userDto.setUserid(user.getUserid());
-//                    userDto.setId(user.getId());
-//                    return userDto;
-//                })
-//                .toList();
-//
-//        return userDtos;
-//    }
 
     public boolean checkUseridDuplicate(String userid) {
         return userRepository.existsByUserid(userid);
@@ -94,7 +78,7 @@ public class UserService {
         return b;
     }
 
-    public User deleteById(Long id) {
+    public CreateForm deleteById(Long id) {
         try {
             userRepository.deleteById(id);
 
@@ -117,13 +101,15 @@ public class UserService {
         return user.getUserid();
     }
 
-    public User findPw(String username, String userid, String email) {
+    public CreateForm findPw(String username, String userid, String email) {
         User user = userRepository.findByUsernameAndUseridAndEmail(username, userid, email);
 
         if (user == null) {
             return null;
         }
-        return user;
+        CreateForm createForm = new CreateForm(user);
+
+        return createForm;
     }
 
     public Long updatePW(Long id, UpdatePasswordDto updatePasswordDto) {
@@ -136,4 +122,17 @@ public class UserService {
         }
         throw new PasswordNotMatchException(String.format("패스워드가 일치하지 않습니다."));
     }
+
+    public User findUser(Long userId) {
+
+        if (userId == null){
+            return null;
+        }
+        User user = userRepository.findById(userId).orElseThrow();
+
+        return user;
+    }
+
+//    public List<CreateForm> findAllUser() {
+//    }
 }

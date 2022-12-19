@@ -1,9 +1,11 @@
 package com.project.reviewSite_backend.user.domain;
 
+import com.project.reviewSite_backend.heart.domain.Heart;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,6 +34,9 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Heart> hearts;
 
     public void update(String password1, String password2) {
         this.password = password1;
