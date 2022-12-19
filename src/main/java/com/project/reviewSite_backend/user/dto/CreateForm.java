@@ -1,13 +1,20 @@
 package com.project.reviewSite_backend.user.dto;
 
-import lombok.Data;
+import com.project.reviewSite_backend.user.domain.User;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
-@Data
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class CreateForm {
+
+    private Long id;
     @Size(min = 1)
     @NotEmpty(message = "사용자 이름은 필수항목입니다.")
     private String username;
@@ -29,6 +36,15 @@ public class CreateForm {
     @NotEmpty(message = "이메일은 필수항목입니다.")
     @Email
     private String email;
+
+    public CreateForm (User user) {
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
+        this.userid = user.getUserid();
+        this.password1 = user.getPassword();
+        this.email = user.getEmail();
+    }
 
 
 

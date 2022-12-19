@@ -1,4 +1,4 @@
-package com.project.reviewSite_backend.answer;
+package com.project.reviewSite_backend.answer.domain;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.project.reviewSite_backend.answer;
+package com.project.reviewSite_backend.answer.dto;
 
 
 import lombok.Getter;
