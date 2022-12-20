@@ -28,6 +28,7 @@ public class HeartService {
                 () -> {
                     Heart heartUser = Heart.builder()
                             .postid(heartDto.getPostid())
+                            .postName(heartDto.getPostName())
                             .user(user)
                             .build();
 
