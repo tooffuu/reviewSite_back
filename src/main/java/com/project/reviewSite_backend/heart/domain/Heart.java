@@ -20,6 +20,9 @@ public class Heart {
     @Column(nullable = false)
     private String postid;
 
+    @Column(nullable = false)
+    private String postName;
+
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 

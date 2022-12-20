@@ -11,8 +11,11 @@ import lombok.Setter;
 public class HeartDto {
     private String postid;
 
+    private String postName;
+
     public HeartDto (Heart heart) {
         this.postid = heart.getPostid();
+        this.postName = heart.getPostName();
     }
 
 }
