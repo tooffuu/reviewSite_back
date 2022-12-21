@@ -9,6 +9,9 @@ import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.jta.UserTransactionAdapter;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -74,11 +77,30 @@ public class UserController {
         return ResponseEntity.ok(userService.checkEmailDuplicate(email));
     }
 
+    //비빌번회 외 닉네임 이메일 수정
     @PostMapping("/modify")
     public User modifyNickname(@RequestBody User user) {
         userService.modifynickname(user);
         return user;
     }
+
+
+
+//    @PostMapping("/login")
+//    public CreateForm login(@RequestBody User user) {
+//
+//        CreateForm loginedUser = userService.login(user);
+//
+//        return loginedUser;
+//    }
+
+    // 마이페이지 진입 전 회원 확인
+    @PostMapping("/UserConfirmPwd")
+    public User ConfirmPwd(@RequestBody User user) {
+        return userService.confirmPwd(user);
+    }
+
+
 
     @DeleteMapping("/delete/{id}")
     public CreateForm deleteUser(@PathVariable Long id) {

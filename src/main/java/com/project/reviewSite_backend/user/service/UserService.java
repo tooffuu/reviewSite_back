@@ -65,6 +65,37 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
+//    public CreateForm login(User user) {
+//        Optional<User> opUser = userRepository.findByUserid(user.getUserid());
+//
+//        if (opUser.isPresent()) {
+//            User loginedUser = opUser.get();
+//            if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
+//                CreateForm createForm = new CreateForm(loginedUser);
+//                return createForm;
+//            }
+//            throw new PasswordNotMatchException(String.format("password do not match"));
+//        }
+//        throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
+//    }
+
+    public User confirmPwd(User checkUser) {
+        Optional<User> ou = userRepository.findByUserid(checkUser.getUserid());
+
+        if(ou.isPresent()) {
+            User user= ou.get();
+            if(passwordEncoder.matches(checkUser.getPassword(), user.getPassword()))
+            {
+                return checkUser;
+            } throw new PasswordNotMatchException("비번 다름");
+
+        } throw new UserNotFoundException("회원 없음");
+    }
+
+
+
+
+    // 회원 닉네임, 이메일 변경
     public User modifynickname(User user) {
 
         User b;
