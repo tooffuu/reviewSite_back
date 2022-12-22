@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.answer.domain;
 
+import com.project.reviewSite_backend.user.domain.User;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,6 +26,11 @@ public class Answer {
 
     private Long detailId;// 디테일페이지 접근
 
+    private String detail_name;
+
     private String nickname;//유저 별명
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    private User user;
 
 }

@@ -1,14 +1,29 @@
 package com.project.reviewSite_backend.answer.dto;
 
-import lombok.Data;
+import com.project.reviewSite_backend.answer.domain.Answer;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 @Getter
+@NoArgsConstructor
 public class AnswerVo {
-    private Long id;//id키값
-    private Long detail_id;//가게번호
-    private String content;//리뷰냐용
-    private Integer star;//평점
-    private String userid;//아이디
-    private String nickname;//닉네임
+    private Long id;
+    private String content;
+    private Integer star;
+    private LocalDateTime createDate;
+    private Long detail_id;
+    private String detail_name;
+    private String nickname;
+
+    public AnswerVo(Answer answer) {
+        this.id = answer.getId();
+        this.content = answer.getContent();
+        this.star = answer.getStar();
+        this.createDate = answer.getCreateDate();
+        this.detail_id = answer.getDetailId();
+        this.detail_name = answer.getDetail_name();
+        this.nickname = answer.getNickname();
+    }
 }
