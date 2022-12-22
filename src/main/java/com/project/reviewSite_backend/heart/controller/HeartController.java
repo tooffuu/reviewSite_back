@@ -27,7 +27,7 @@ public class HeartController {
         return "좋아요 눌림";
     }
 
-    // 좋아요 정보 가져오기
+    // detail 페이지의 좋아요 유무 가져오기
     @GetMapping("/heart/{postid}")
     public Boolean checkClickHeart(@PathVariable String postid, @RequestParam("userId") Long userId) {
 
@@ -36,6 +36,7 @@ public class HeartController {
         return heartService.checkClickHeartDuplicate(postid, user);
     }
 
+    // 현재 유저의 찜 목록 가져오기
     @GetMapping("/heart/user")
     public List<HeartDto> findHeartByUser(@RequestParam("userId") Long userId) {
         User user = userService.findUser(userId);
@@ -44,4 +45,5 @@ public class HeartController {
 
         return heartDto;
     }
+
 }

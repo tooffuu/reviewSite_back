@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.user.dto;
 
+import com.project.reviewSite_backend.answer.dto.AnswerVo;
 import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.Getter;
@@ -21,6 +22,8 @@ public class UserDto {
 
     private List<HeartDto> heartDtoList;
 
+    private List<AnswerVo> answerVoList;
+
     public UserDto(User user) {
         this.id = user.getId();
         this.nickname = user.getNickname();
@@ -36,6 +39,15 @@ public class UserDto {
                 .collect(Collectors.toList());
 
         this.heartDtoList = heartDtos;
-    }
 
+        List<AnswerVo> answerList = user.getAnswerList()
+                .stream()
+                .map(answer -> {
+                    AnswerVo answerVo = new AnswerVo(answer);
+                    return answerVo;
+                })
+                .collect(Collectors.toList());
+
+        this.answerVoList = answerList;
+    }
 }
