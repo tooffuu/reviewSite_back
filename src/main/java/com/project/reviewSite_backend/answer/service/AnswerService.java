@@ -3,9 +3,12 @@ package com.project.reviewSite_backend.answer.service;
 import com.project.reviewSite_backend.answer.dao.AnswerRepository;
 import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.answer.dto.AnswerVo;
+import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
 import com.project.reviewSite_backend.answer.dto.StarcountDto;
+import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,29 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AnswerService {
     private final AnswerRepository answerRepository;
+
+    private final PhotoService photoService;
+
+//    private final AmazonS3 amazonS3;
+
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
+    //------------------------------------------------------------------------------------------------
+
+    public Answer createAnswer(CreateAnswerForm createAnswereForm, User user) {
+        Answer answer = Answer.builder()
+                .content(createAnswereForm.getContent())
+                .star(createAnswereForm.getStar())
+                .createDate(LocalDateTime.now())
+                .detail_name(createAnswereForm.getDetail_name())
+                .detailId(createAnswereForm.getDetail_id())
+                .nickname(createAnswereForm.getNickname())
+                .user(user)
+                .build();
+        Answer answer1 = answerRepository.save(answer);
+        return answer1;
+    }
+
 
     //-----------------------------------------------------------------------------------
     //생성하는 로직
@@ -36,6 +62,7 @@ public class AnswerService {
 
         return answerVo1;
     }
+
     //-----------------------------------------------------------------------------------
     //리뷰 업데이트 컴포넌트
     public boolean updateContent(AnswerVo answerVo) {
@@ -81,6 +108,7 @@ public class AnswerService {
             return null;
         }
     }
+
     //------------------------------------------------------------------------------------
     //평점 평균구하는 로직
     public StarcountDto staravg(Long detailId) {

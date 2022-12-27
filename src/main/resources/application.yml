@@ -21,8 +21,25 @@ spring:
           format_sql:true
         use_sql_comments: true
     hibernate:
-#      ddl-auto: create
+#            ddl-auto: create
       ddl-auto: update
+    servlet:
+      multipart:
+        maxFileSize: 1000MB
+        maxRequestSize: 1000MB
+
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIAYIYSCH5T5RIPK44C
+      secretKey: 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
+    s3:
+      bucket: file-upload-ktw
+      dir: /
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
 
 logging:
   level:

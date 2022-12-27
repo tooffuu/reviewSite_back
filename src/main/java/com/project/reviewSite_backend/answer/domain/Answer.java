@@ -1,16 +1,20 @@
 package com.project.reviewSite_backend.answer.domain;
 
+import com.project.reviewSite_backend.photo.domain.Photo;
 import com.project.reviewSite_backend.user.domain.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
 @Entity
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +36,10 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
+
+    @OneToMany(mappedBy = "answer", cascade = {CascadeType.ALL}, orphanRemoval = true)
+    private List<Photo> imageList;
+
+
 
 }
