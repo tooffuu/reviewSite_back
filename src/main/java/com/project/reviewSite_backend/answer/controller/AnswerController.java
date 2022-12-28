@@ -42,6 +42,8 @@ public class AnswerController {
     @PostMapping("/answer/create/post")
     public void starIn(@RequestParam(value = "files", required = false) List<MultipartFile> files, @RequestParam("userId") Long userId,@Valid CreateAnswerForm createAnswerForm) throws IOException {
         User user = userService.findUser(userId);
+
+        System.out.println("files :"+ files);
         // 게시물 작성 후 db 저장 로직
       Answer answer =  answerService.createAnswer(createAnswerForm, user);
         if (files == null) return;

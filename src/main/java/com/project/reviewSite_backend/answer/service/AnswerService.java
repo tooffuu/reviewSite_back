@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    private final PhotoService photoService;
+//    private final PhotoService photoService;
 
 //    private final AmazonS3 amazonS3;
 
