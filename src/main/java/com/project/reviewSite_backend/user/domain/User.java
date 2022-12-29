@@ -52,4 +52,18 @@ public class User {
         this.password = password1;
     }
 
+    public void update(String password, String nickname, String email) {
+        this.password = password;
+        this.nickname = nickname;
+        this. email = email;
+
+    }
+
+    public void modify(String nickname, String password, String email){
+        this.password = password;
+        this.nickname = nickname;
+        this.email = email;
+    }
+
+
 }
