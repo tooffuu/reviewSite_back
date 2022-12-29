@@ -7,6 +7,7 @@ import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -77,29 +79,17 @@ public class UserController {
         return ResponseEntity.ok(userService.checkEmailDuplicate(email));
     }
 
-    //비빌번회 외 닉네임 이메일 수정
-    @PostMapping("/modify")
-    public User modifyNickname(@RequestBody User user) {
-        userService.modifynickname(user);
-        return user;
-    }
-
-
-
-//    @PostMapping("/login")
-//    public CreateForm login(@RequestBody User user) {
-//
-//        CreateForm loginedUser = userService.login(user);
-//
-//        return loginedUser;
-//    }
-
     // 마이페이지 진입 전 회원 확인
     @PostMapping("/UserConfirmPwd")
     public User ConfirmPwd(@RequestBody User user) {
         return userService.confirmPwd(user);
     }
 
+    //회원 정보 수정
+    @PutMapping("editprofile")
+    public User modify(@RequestBody User user) {
+        return userService.modifyUser(user);
+    }
 
 
     @DeleteMapping("/delete/{id}")

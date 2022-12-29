@@ -3,8 +3,7 @@ package com.project.reviewSite_backend.user.dto;
 import com.project.reviewSite_backend.answer.dto.AnswerVo;
 import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.user.domain.User;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.stream.Collectors;

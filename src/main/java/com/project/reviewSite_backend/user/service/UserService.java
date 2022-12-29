@@ -7,11 +7,15 @@ import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
+import com.project.reviewSite_backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -79,6 +83,7 @@ public class UserService {
 //        throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
 //    }
 
+    //마이페이지 진입전 회원 확인
     public User confirmPwd(User checkUser) {
         Optional<User> ou = userRepository.findByUserid(checkUser.getUserid());
 
@@ -87,27 +92,48 @@ public class UserService {
             if(passwordEncoder.matches(checkUser.getPassword(), user.getPassword()))
             {
                 return checkUser;
-            } throw new PasswordNotMatchException("비번 다름");
+            } throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
 
-        } throw new UserNotFoundException("회원 없음");
+        } throw new UserNotFoundException("등록된 회원이 없습니다.");
+    }
+
+    //회원 정보 수정
+    @Transactional
+    public User modifyUser(User user) {
+
+        Optional<User> ou = userRepository.findByUserid(user.getUserid());
+
+        if(ou.isPresent()){
+            User ru = ou.get();
+
+            ru.setEmail(user.getEmail());
+            ru.setNickname(user.getNickname());
+            ru.setPassword(passwordEncoder.encode(user.getPassword()));
+            userRepository.save(ru);
+            return user;
+        } throw new UserNotFoundException("등록된 회원이 없습니다.");
+
+
     }
 
 
-
-
-    // 회원 닉네임, 이메일 변경
-    public User modifynickname(User user) {
-
-        User b;
-
-        if (userRepository.save(user) == null) {
-            b = null;
-        } else {
-            b = user;
-        }
-
-        return b;
-    }
+//    @Transactional
+//    public User editprofile(User user) {
+//        User persistansce = userRepository.findById(user.getId()).orElseThrow(()->{
+//            return new IllegalArgumentException("회원 찾기 실패");
+//        });
+//        String rawPassword = user.getPassword();
+//        String encPassword = passwordEncoder.encode(rawPassword);
+//        persistansce.setPassword(encPassword);
+//        persistansce.setEmail(user.getEmail());
+//        persistansce.setNickname(user.getNickname());
+//        System.out.println("==========================");
+//        System.out.println(user.getNickname());
+//        System.out.println(user.getEmail());
+//        System.out.println("==========================");
+//
+//        return user;
+//
 
     public CreateForm deleteById(Long id) {
         try {
