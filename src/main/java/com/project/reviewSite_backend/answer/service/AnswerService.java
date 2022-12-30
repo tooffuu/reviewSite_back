@@ -2,6 +2,7 @@ package com.project.reviewSite_backend.answer.service;
 
 import com.project.reviewSite_backend.answer.dao.AnswerRepository;
 import com.project.reviewSite_backend.answer.domain.Answer;
+import com.project.reviewSite_backend.answer.dto.AnswerDto;
 import com.project.reviewSite_backend.answer.dto.AnswerVo;
 import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
 import com.project.reviewSite_backend.answer.dto.StarcountDto;
@@ -62,25 +63,55 @@ public class AnswerService {
 
         return answerVo1;
     }
+//---------------------------------------------------------------------------------------
+public AnswerDto getAnswer(Long id) {
+    Answer answer = answerRepository.findById(id).orElseThrow();
+    AnswerDto answerDto = new AnswerDto(answer);
+    return answerDto;
+}
+//--------------------------------------------------------------
+public boolean updateContent(CreateAnswerForm createAnswerForm) {
+    Optional<Answer> opContent = this.answerRepository.findById(createAnswerForm.getId());
+
+    if (opContent.isPresent()) {
+        Answer content = opContent.get();
+        content.setId(createAnswerForm.getId());
+        content.setContent(createAnswerForm.getContent());
+        content.setStar(createAnswerForm.getStar());
+        content.setCreateDate(LocalDateTime.now());
+        answerRepository.save(content);
+        return true;
+    } else {
+        return false;
+    }
+
+}
+
+
+
+
+
+
+
 
     //-----------------------------------------------------------------------------------
     //리뷰 업데이트 컴포넌트
-    public boolean updateContent(AnswerVo answerVo) {
-        Optional<Answer> opContent = this.answerRepository.findById(answerVo.getId());
-        System.out.println(answerVo);
-        if (opContent.isPresent()) {
-            Answer content = opContent.get();
-            content.setId(answerVo.getId());
-            content.setContent(answerVo.getContent());
-            content.setStar(answerVo.getStar());
-            content.setCreateDate(LocalDateTime.now());
-            answerRepository.save(content);
-            return true;
-        } else {
-            return false;
-        }
-
-    }
+//    public boolean updateContent(AnswerVo answerVo) {
+//        Optional<Answer> opContent = this.answerRepository.findById(answerVo.getId());
+//        System.out.println(answerVo);
+//        if (opContent.isPresent()) {
+//            Answer content = opContent.get();
+//            content.setId(answerVo.getId());
+//            content.setContent(answerVo.getContent());
+//            content.setStar(answerVo.getStar());
+//            content.setCreateDate(LocalDateTime.now());
+//            answerRepository.save(content);
+//            return true;
+//        } else {
+//            return false;
+//        }
+//
+//    }
     //-----------------------------------------------------------------------------------
     //디테일 아이디로 데이터 불러오기
 //    public List<Answer> answers(Long DetailId) {
