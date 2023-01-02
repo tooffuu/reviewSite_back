@@ -2,7 +2,7 @@ package com.project.reviewSite_backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.reviewSite_backend.answer.domain.Answer;
-import com.project.reviewSite_backend.bookmark.domain.Bookmark;
+import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.heart.domain.Heart;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
@@ -42,7 +42,7 @@ public class User {
     private List<Heart> hearts;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bookmark> bookmarks;
+    private List<BookmarkName> bookmarks;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore

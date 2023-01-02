@@ -7,15 +7,12 @@ import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
-import com.project.reviewSite_backend.user.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -189,4 +186,5 @@ public class UserService {
 
         return user;
     }
+
 }
