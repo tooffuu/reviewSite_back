@@ -1,7 +1,6 @@
 package com.project.reviewSite_backend.answer.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.project.reviewSite_backend.answer.AWS.AwsService;
 import com.project.reviewSite_backend.answer.dao.AnswerRepository;
 import com.project.reviewSite_backend.answer.domain.Answer;
@@ -40,26 +39,27 @@ public class AnswerController {
     //------------------------------------------------------------------------------------
     //리뷰 생성 & 이미지 aws업로드 & URL 저장 컨트롤러
     @PostMapping("/answer/create/post")
-    public void starIn(@RequestParam(value = "files", required = false) List<MultipartFile> files, @RequestParam("userId") Long userId,@Valid CreateAnswerForm createAnswerForm) throws IOException {
+    public void starIn(@RequestParam(value = "files", required = false) List<MultipartFile> files, @RequestParam("userId") Long userId, @Valid CreateAnswerForm createAnswerForm) throws IOException {
         User user = userService.findUser(userId);
 
         System.out.println("files :"+ files);
         // 게시물 작성 후 db 저장 로직
-      Answer answer =  answerService.createAnswer(createAnswerForm, user);
+        Answer answer = answerService.createAnswer(createAnswerForm, user);
         if (files == null) return;
         files.stream()
-        .forEach(file -> {
-            try {
-                // s3 bucket 업로드 로직
-                String imgUrl = awsService.sendFileToS3Bucket(file);
-                // s3 bucket 업로드 후 imgUrl db 저장 로직
-                photoService.photo(imgUrl, answer);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        });
+                .forEach(file -> {
+                    try {
+                        // s3 bucket 업로드 로직
+                        String imgUrl = awsService.sendFileToS3Bucket(file);
+                        // s3 bucket 업로드 후 imgUrl db 저장 로직
+                        photoService.photo(imgUrl, answer);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
 
     }
+
     //------------------------------------------------------------------------------------
     //백엔드 데이터 전송컨트롤러
     @GetMapping("/detail/get")
@@ -94,9 +94,9 @@ public class AnswerController {
     //-------------------------------------------------------------------------------------
     //리뷰 업데이트 컨트롤러
     @PatchMapping("/update/content")
-    public boolean update(@RequestBody AnswerVo answerVo) {
-        System.out.println(answerVo.getId());
-        return this.answerService.updateContent(answerVo);
+    public boolean update(@RequestBody CreateAnswerForm createAnswerForm) {
+//        System.out.println(answerVo.getId());
+        return this.answerService.updateContent(createAnswerForm);
     }
 
     // 현재 유저의 댓글 작성 목록 가져오기

@@ -1,7 +1,6 @@
 package com.project.reviewSite_backend.user.controller;
 
 import com.project.reviewSite_backend.exception.UserNotFoundException;
-import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
@@ -10,9 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.transaction.jta.UserTransactionAdapter;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +22,6 @@ import java.security.Principal;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
@@ -39,7 +34,7 @@ public class UserController {
         }
         userService.joinUser(createForm);
 
-        return "user";
+        return "회원가입 성공";
     }
 
     @PostMapping("/login")
@@ -49,20 +44,6 @@ public class UserController {
 
         return loginedUser;
     }
-
-//    전체 유저의 전체 정보 가져오기
-//    @GetMapping("/members")
-//    public List<CreateForm> getAllUsers() {
-//       List<CreateForm> createForm = userService.findAllUser();
-//
-//       return createForm;
-//    }
-
-//    전체 유저의 패스워드 제외한 정보 가져오기
-//    @GetMapping("/checked")
-//    public List<UserDto> getAllUsers() {
-//        return userService.getAllUsers();
-//    }
 
     @GetMapping("/{userid}/userid")
     public ResponseEntity<Boolean> checkUseridDuplicate(@PathVariable String userid) {
@@ -90,7 +71,6 @@ public class UserController {
     public User modify(@RequestBody User user) {
         return userService.modifyUser(user);
     }
-
 
     @DeleteMapping("/delete/{id}")
     public CreateForm deleteUser(@PathVariable Long id) {
