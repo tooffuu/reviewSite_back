@@ -48,6 +48,7 @@ public class User {
     @JsonIgnore
     private List<Answer> answerList;
 
+
     public void update(String password1, String password2) {
         this.password = password1;
     }
