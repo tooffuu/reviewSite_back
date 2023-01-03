@@ -23,6 +23,8 @@ public class BookmarkDto {
 
     private Double locationY;
 
+    private BookmarkNameDto bookmarkName;
+
     public BookmarkDto(Bookmark bookmark) {
         this.id = bookmark.getId();
         this.postId = bookmark.getPostId();
@@ -31,6 +33,7 @@ public class BookmarkDto {
         this.address = bookmark.getAddress();
         this.locationX = bookmark.getLocationX();
         this.locationY = bookmark.getLocationY();
+        this.bookmarkName = new BookmarkNameDto(bookmark.getBookmarkName());
     }
 
 }
