@@ -24,8 +24,11 @@ public class BookmarkName {
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
 
-    @OneToMany(mappedBy = "bookmarkName")
-    private List<Bookmark> bookmarks;
+    public void update(String bookmarkName) {
+        this.bookmarkName = bookmarkName;
+    }
 
+    @OneToMany(mappedBy = "bookmarkName", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Bookmark> bookmarks;
 
 }

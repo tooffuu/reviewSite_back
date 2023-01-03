@@ -1,5 +1,7 @@
 package com.project.reviewSite_backend.user.service;
 
+import com.project.reviewSite_backend.bookmark.dao.BookmarkNameRepository;
+import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.UserRole;
@@ -23,6 +25,8 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final BookmarkNameRepository bookmarkNameRepository;
+
     public void joinUser(CreateForm createForm) {
         User user = User.builder()
                 .username(createForm.getUsername())
@@ -34,6 +38,14 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+
+        // 유저 회원가입시 북마크 폴더 자동 생성
+        BookmarkName bookmarkName = BookmarkName.builder()
+                .bookmarkName("기본 폴더")
+                .user(user)
+                .build();
+
+        bookmarkNameRepository.save(bookmarkName);
     }
 
     public CreateForm login(User user) {
@@ -107,7 +119,9 @@ public class UserService {
             ru.setNickname(user.getNickname());
             ru.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(ru);
+
             return user;
+
         } throw new UserNotFoundException("등록된 회원이 없습니다.");
 
 

@@ -6,14 +6,12 @@ import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 //@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -67,7 +65,7 @@ public class UserController {
     }
 
     //회원 정보 수정
-    @PutMapping("editprofile")
+    @PutMapping("/editprofile")
     public User modify(@RequestBody User user) {
         return userService.modifyUser(user);
     }
