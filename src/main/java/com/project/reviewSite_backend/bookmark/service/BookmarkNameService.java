@@ -6,6 +6,7 @@ import com.project.reviewSite_backend.bookmark.dto.BookmarkNameDto;
 import com.project.reviewSite_backend.bookmark.dto.GetBookmarkNameDto;
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,5 +53,13 @@ public class BookmarkNameService {
         GetBookmarkNameDto getBookmarkNameDto = new GetBookmarkNameDto(bookmarkName);
 
         return getBookmarkNameDto;
+    }
+
+    public void deleteBookmarkFolder(Long id) {
+        try {
+            bookmarkNameRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+
+        }
     }
 }
