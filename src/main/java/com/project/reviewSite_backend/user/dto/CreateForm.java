@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 public class CreateForm {
 
     private Long id;
+
     @Size(min = 1)
     @NotEmpty(message = "사용자 이름은 필수항목입니다.")
     private String username;

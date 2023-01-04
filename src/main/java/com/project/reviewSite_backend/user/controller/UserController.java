@@ -60,7 +60,7 @@ public class UserController {
 
     // 마이페이지 진입 전 회원 확인
     @PostMapping("/UserConfirmPwd")
-    public User ConfirmPwd(@RequestBody User user) {
+    public CreateForm ConfirmPwd(@RequestBody User user) {
         return userService.confirmPwd(user);
     }
 
@@ -106,4 +106,5 @@ public class UserController {
 
         return null;
     }
+
 }

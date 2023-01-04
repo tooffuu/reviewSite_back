@@ -51,11 +51,19 @@ public class BookmarkNameController {
     // 순환참조 일어나서 GetBookmarkNameDto 하나 더 생성함
     @GetMapping("/{id}")
     public GetBookmarkNameDto getBookmark(@PathVariable Long id) {
-//        User user = userService.findUser(userId);
 
         GetBookmarkNameDto bookmarkList = bookmarkNameService.findBookmark(id);
 
         return bookmarkList;
+    }
+
+    // 북마크 폴더 삭제
+    @DeleteMapping("/delete/{id}")
+    public String deleteFolder(@PathVariable Long id) {
+
+        bookmarkNameService.deleteBookmarkFolder(id);
+
+        return "삭제 완료";
     }
 
 }
