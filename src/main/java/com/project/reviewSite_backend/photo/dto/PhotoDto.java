@@ -13,6 +13,9 @@ public class PhotoDto {
 
     private Long id;
 
+    private String content;
+
+    private String nickname;
     private String imgUrl;
 
     private Long detailId;
@@ -21,6 +24,8 @@ public class PhotoDto {
         this.id = photo.getId();
         this.imgUrl = photo.getImgUrl();
         this.detailId = photo.getDetailId();
+        this.content = photo.getContent();
+        this.nickname = photo.getNickname();
 
     }
 }

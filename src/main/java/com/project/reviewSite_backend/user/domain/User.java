@@ -61,8 +61,10 @@ public class User {
     private List<Answer> answerList;
 
 
+
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, orphanRemoval = true)
     private List<Profil> imageList;
+
     public void update(String password1, String password2) {
         this.password = password1;
     }
