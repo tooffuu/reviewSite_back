@@ -54,4 +54,7 @@ public class PhotoService {
     }
 
 
+    public List<PhotoDto> getphotoimgByAnswer(Answer answer) {
+        return photoRepository.findByAnswer(answer);
+    }
 }

@@ -65,7 +65,7 @@ public class UserController {
     }
 
     //회원 정보 수정
-    @PutMapping("/editprofile")
+    @PatchMapping("/editprofile")
     public User modify(@RequestBody User user) {
         return userService.modifyUser(user);
     }

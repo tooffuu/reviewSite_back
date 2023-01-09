@@ -31,8 +31,8 @@ spring:
 cloud:
   aws:
     credentials:
-      accessKey: AKIAYIYSCH5T5RIPK44C
-      secretKey: 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
+      accessKey: AKIAYIYSCH5T325LC2M6
+      secretKey: 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
     s3:
       bucket: file-upload-ktw
       dir: /

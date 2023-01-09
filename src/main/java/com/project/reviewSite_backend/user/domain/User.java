@@ -1,11 +1,18 @@
 package com.project.reviewSite_backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.reviewSite_backend.Profil.domain.Profil;
+import com.project.reviewSite_backend.Profil.dto.ProfilDto;
 import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.heart.domain.Heart;
+import com.project.reviewSite_backend.photo.domain.Photo;
+import com.project.reviewSite_backend.photo.dto.PhotoDto;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,6 +20,8 @@ import java.util.List;
 @Data
 @Entity
 @Builder
+@DynamicInsert
+@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class User {
@@ -35,6 +44,9 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
+    @ColumnDefault("'https://file-upload-ktw.s3.ap-northeast-2.amazonaws.com/user.png'")
+
+
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
@@ -48,6 +60,9 @@ public class User {
     @JsonIgnore
     private List<Answer> answerList;
 
+
+    @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, orphanRemoval = true)
+    private List<Profil> imageList;
     public void update(String password1, String password2) {
         this.password = password1;
     }

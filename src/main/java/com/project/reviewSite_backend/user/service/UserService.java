@@ -1,5 +1,7 @@
 package com.project.reviewSite_backend.user.service;
 
+import com.project.reviewSite_backend.answer.domain.Answer;
+import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
 import com.project.reviewSite_backend.bookmark.dao.BookmarkNameRepository;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -29,6 +32,7 @@ public class UserService {
 
     public void joinUser(CreateForm createForm) {
         User user = User.builder()
+
                 .username(createForm.getUsername())
                 .nickname(createForm.getNickname())
                 .userid(createForm.getUserid())
@@ -103,18 +107,15 @@ public class UserService {
 
         if(ou.isPresent()){
             User ru = ou.get();
-
             ru.setEmail(user.getEmail());
             ru.setNickname(user.getNickname());
             ru.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(ru);
 
             return user;
-
         } throw new UserNotFoundException("등록된 회원이 없습니다.");
-
-
     }
+
 
 
     public CreateForm deleteById(Long id) {
@@ -122,7 +123,6 @@ public class UserService {
             userRepository.deleteById(id);
 
             return deleteById(id);
-
         } catch (EmptyResultDataAccessException e) {
 
             return null;
