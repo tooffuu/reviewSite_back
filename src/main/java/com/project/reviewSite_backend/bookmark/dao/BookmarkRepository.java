@@ -19,4 +19,7 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
     Boolean existsByPostIdAndUser(String postId, User user);
 
     List<BookmarkDto> findByUser(User user);
+
+    @Transactional
+    void deleteByPostId(String postId);
 }

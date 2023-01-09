@@ -1,5 +1,7 @@
 package com.project.reviewSite_backend.user.service;
 
+import com.project.reviewSite_backend.bookmark.dao.BookmarkNameRepository;
+import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.UserRole;
@@ -23,6 +25,8 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final BookmarkNameRepository bookmarkNameRepository;
+
     public void joinUser(CreateForm createForm) {
         User user = User.builder()
                 .username(createForm.getUsername())
@@ -34,6 +38,14 @@ public class UserService {
                 .build();
 
         userRepository.save(user);
+
+        // 유저 회원가입시 북마크 폴더 자동 생성
+        BookmarkName bookmarkName = BookmarkName.builder()
+                .bookmarkName("기본 폴더")
+                .user(user)
+                .build();
+
+        bookmarkNameRepository.save(bookmarkName);
     }
 
     public CreateForm login(User user) {
@@ -66,29 +78,18 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-//    public CreateForm login(User user) {
-//        Optional<User> opUser = userRepository.findByUserid(user.getUserid());
-//
-//        if (opUser.isPresent()) {
-//            User loginedUser = opUser.get();
-//            if (passwordEncoder.matches(user.getPassword(), loginedUser.getPassword())) {
-//                CreateForm createForm = new CreateForm(loginedUser);
-//                return createForm;
-//            }
-//            throw new PasswordNotMatchException(String.format("password do not match"));
-//        }
-//        throw new UserNotFoundException(String.format("%s not found", user.getUserid()));
-//    }
 
-    //마이페이지 진입전 회원 확인
-    public User confirmPwd(User checkUser) {
+    //마이페이지 진입 전 회원 확인
+    public CreateForm confirmPwd(User checkUser) {
         Optional<User> ou = userRepository.findByUserid(checkUser.getUserid());
 
         if(ou.isPresent()) {
             User user= ou.get();
             if(passwordEncoder.matches(checkUser.getPassword(), user.getPassword()))
             {
-                return checkUser;
+                CreateForm createForm = new CreateForm(user);
+
+                return createForm;
             } throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
 
         } throw new UserNotFoundException("등록된 회원이 없습니다.");
@@ -107,30 +108,14 @@ public class UserService {
             ru.setNickname(user.getNickname());
             ru.setPassword(passwordEncoder.encode(user.getPassword()));
             userRepository.save(ru);
+
             return user;
+
         } throw new UserNotFoundException("등록된 회원이 없습니다.");
 
 
     }
 
-
-//    @Transactional
-//    public User editprofile(User user) {
-//        User persistansce = userRepository.findById(user.getId()).orElseThrow(()->{
-//            return new IllegalArgumentException("회원 찾기 실패");
-//        });
-//        String rawPassword = user.getPassword();
-//        String encPassword = passwordEncoder.encode(rawPassword);
-//        persistansce.setPassword(encPassword);
-//        persistansce.setEmail(user.getEmail());
-//        persistansce.setNickname(user.getNickname());
-//        System.out.println("==========================");
-//        System.out.println(user.getNickname());
-//        System.out.println(user.getEmail());
-//        System.out.println("==========================");
-//
-//        return user;
-//
 
     public CreateForm deleteById(Long id) {
         try {
@@ -186,5 +171,4 @@ public class UserService {
 
         return user;
     }
-
 }

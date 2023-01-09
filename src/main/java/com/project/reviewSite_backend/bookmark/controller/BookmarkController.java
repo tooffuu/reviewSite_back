@@ -2,7 +2,7 @@ package com.project.reviewSite_backend.bookmark.controller;
 
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.bookmark.dto.BookmarkDto;
-import com.project.reviewSite_backend.bookmark.dto.BookmarkNameDto;
+import com.project.reviewSite_backend.bookmark.service.BookmarkNameService;
 import com.project.reviewSite_backend.bookmark.service.BookmarkService;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.service.UserService;
@@ -18,37 +18,21 @@ import java.util.List;
 public class BookmarkController {
     private final UserService userService;
     private final BookmarkService bookmarkService;
-
-    // 북마크 이름 생성
-    @PostMapping("")
-    public BookmarkNameDto setBookmarkName(@RequestBody @Valid BookmarkNameDto bookmarkNameDto, @RequestParam("userId") Long userId) {
-        User user = userService.findUser(userId);
-
-        bookmarkService.createBookmarkName(bookmarkNameDto, user);
-
-        return bookmarkNameDto;
-    }
-
-    @GetMapping("")
-    public List<BookmarkNameDto> getBookmarkNames(@RequestParam("userId") Long userId) {
-        User user = userService.findUser(userId);
-
-        List<BookmarkNameDto> bookmarkNameDtoList = bookmarkService.findBookmarkNameByUserId(user);
-
-        return bookmarkNameDtoList;
-    }
+    private final BookmarkNameService bookmarkNameService;
 
     // 북마크 생성
     @PostMapping("/list")
-    public BookmarkDto setBookmark(@RequestBody @Valid BookmarkDto bookmarkDto, @RequestParam("userId") Long userId) {
+    public BookmarkDto setBookmark(@RequestBody @Valid BookmarkDto bookmarkDto, @RequestParam("userId") Long userId, @RequestParam("nameId") Long nameId) {
         User user = userService.findUser(userId);
 
-        bookmarkService.clickBookmark(bookmarkDto, user);
+        BookmarkName bookmarkName = bookmarkNameService.findBookmarkNameId(nameId);
+
+        bookmarkService.clickBookmark(bookmarkDto, user, bookmarkName);
 
         return bookmarkDto;
     }
 
-
+    // 북마크 체크 유무 확인
     @GetMapping("/{postId}")
     public Boolean checkBookmark(@PathVariable String postId, @RequestParam("userId") Long userId) {
         User user = userService.findUser(userId);
@@ -56,26 +40,12 @@ public class BookmarkController {
         return bookmarkService.checkBookmarkDuplicate(postId, user);
     }
 
+    // 유저 별 북마크 가져오기
     @GetMapping("/user")
     public List<BookmarkDto> getBookmark(@RequestParam("userId") Long userId) {
-        User user = userService.findUser(userId);
+            User user = userService.findUser(userId);
 
-        List<BookmarkDto> bookmarkDtoList = bookmarkService.findBookmarksByUserId(user);
-
-        return bookmarkDtoList;
-    }
-
-    // 북마크 폴더의 id 조회
-//    @GetMapping("/name")
-//    public BookmarkNameDto getBookmarkId(@RequestParam("nameId") Long nameId) {
-//        BookmarkNameDto nameDto = bookmarkService.findBookmarkNameId(nameId);
-//
-//        return nameDto;
-//    }
-
-    @GetMapping("/name")
-    public BookmarkName getBookmarkId(@RequestParam("nameId") Long nameId) {
-        return bookmarkService.findBookmarkNameId(nameId);
+            return bookmarkService.findBookmarksByUserId(user);
     }
 
     // 북마크 폴더에 저장
@@ -83,8 +53,19 @@ public class BookmarkController {
     @PatchMapping("/name/set/{id}")
     public void setBookmarkName(@PathVariable Long id, @RequestParam("nameId") Long nameId) {
 
-        BookmarkName markName = bookmarkService.findBookmarkNameId(nameId);
+        BookmarkName markName = bookmarkNameService.findBookmarkNameId(nameId);
 
         bookmarkService.setName(id, markName);
     }
+
+    // my place 에서 단독으로 북마크 삭제하기
+    @DeleteMapping("/delete/{postId}")
+    public String deleteBookmark(@PathVariable String postId) {
+
+        bookmarkService.deleteBookmark(postId);
+        return "삭제 완료";
+    }
+
+
+
 }

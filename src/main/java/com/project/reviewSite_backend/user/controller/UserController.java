@@ -2,28 +2,22 @@ package com.project.reviewSite_backend.user.controller;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.project.reviewSite_backend.answer.AWS.AwsService;
-import com.project.reviewSite_backend.answer.domain.Answer;
-import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
 
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/user")
@@ -77,12 +71,12 @@ public class UserController {
 
     // 마이페이지 진입 전 회원 확인
     @PostMapping("/UserConfirmPwd")
-    public User ConfirmPwd(@RequestBody User user) {
+    public CreateForm ConfirmPwd(@RequestBody User user) {
         return userService.confirmPwd(user);
     }
 
     //회원 정보 수정
-    @PutMapping("editprofile")
+    @PutMapping("/editprofile")
     public User modify(@RequestBody User user) {
         return userService.modifyUser(user);
     }

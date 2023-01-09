@@ -15,5 +15,7 @@ public class BookmarkNameDto {
     public BookmarkNameDto(BookmarkName bookmarkName) {
         this.id = bookmarkName.getId();
         this.bookmarkName = bookmarkName.getBookmarkName();
+
     }
+
 }
