@@ -1,11 +1,14 @@
 package com.project.reviewSite_backend.answer.service;
 
+import com.amazonaws.services.s3.AmazonS3;
 import com.project.reviewSite_backend.answer.dao.AnswerRepository;
 import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.answer.dto.AnswerDto;
 import com.project.reviewSite_backend.answer.dto.AnswerVo;
 import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
 import com.project.reviewSite_backend.answer.dto.StarcountDto;
+import com.project.reviewSite_backend.photo.domain.Photo;
+import com.project.reviewSite_backend.photo.dto.PhotoDto;
 import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +26,9 @@ import java.util.stream.Collectors;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-//    private final PhotoService photoService;
+    private final PhotoService photoService;
 
-//    private final AmazonS3 amazonS3;
+    private final AmazonS3 amazonS3;
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
@@ -87,37 +90,6 @@ public boolean updateContent(CreateAnswerForm createAnswerForm) {
 
 }
 
-
-
-
-
-
-
-
-    //-----------------------------------------------------------------------------------
-    //리뷰 업데이트 컴포넌트
-//    public boolean updateContent(AnswerVo answerVo) {
-//        Optional<Answer> opContent = this.answerRepository.findById(answerVo.getId());
-//        System.out.println(answerVo);
-//        if (opContent.isPresent()) {
-//            Answer content = opContent.get();
-//            content.setId(answerVo.getId());
-//            content.setContent(answerVo.getContent());
-//            content.setStar(answerVo.getStar());
-//            content.setCreateDate(LocalDateTime.now());
-//            answerRepository.save(content);
-//            return true;
-//        } else {
-//            return false;
-//        }
-//
-//    }
-    //-----------------------------------------------------------------------------------
-    //디테일 아이디로 데이터 불러오기
-//    public List<Answer> answers(Long DetailId) {
-//        return this.answerRepository.findByDetailId(DetailId);
-//    }
-
     public List<AnswerVo> answers(Long detailId) {
         return answerRepository.findByDetailId(detailId)
                 .stream()
@@ -129,17 +101,33 @@ public boolean updateContent(CreateAnswerForm createAnswerForm) {
 
     //-----------------------------------------------------------------------------------
     //id값으로 삭제하는 로직
-    public Answer deleteById(Long id) {
-        try {
-            answerRepository.deleteById(id);
+//    public Answer deleteById(Long id) {
+//        try {
+//            answerRepository.deleteById(id);
+//
+//            return deleteById(id);
+//        } catch (
+//                EmptyResultDataAccessException e) {//오류 예외
+//            return null;
+//        }
+//    }
+    public void deleteArticle(Long id) {
+        Answer answer = answerRepository.findById(id).orElseThrow();
 
-            return deleteById(id);
-        } catch (
-                EmptyResultDataAccessException e) {//오류 예외
-            return null;
-        }
+        List<PhotoDto> photoList = photoService.getphotoimgByAnswer(answer);
+
+        photoList
+                .stream()
+                .forEach(photoDto -> {
+                    String imgUrl = photoDto.getImgUrl();
+                    String filename = imgUrl.substring(imgUrl.lastIndexOf("/") + 1, imgUrl.length());
+                    amazonS3.deleteObject(bucket, filename);
+
+                });
+
+        answerRepository.deleteById(id);
+
     }
-
     //------------------------------------------------------------------------------------
     //평점 평균구하는 로직
     public StarcountDto staravg(Long detailId) {
@@ -161,3 +149,7 @@ public boolean updateContent(CreateAnswerForm createAnswerForm) {
         return answerRepository.findByUser(user);
     }
 }
+
+
+
+

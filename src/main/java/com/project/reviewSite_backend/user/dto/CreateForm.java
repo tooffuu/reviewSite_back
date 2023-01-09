@@ -4,12 +4,16 @@ import com.project.reviewSite_backend.user.domain.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateForm {
@@ -38,6 +42,7 @@ public class CreateForm {
     @Email
     private String email;
 
+    private String userimg;
     public CreateForm (User user) {
         this.id = user.getId();
         this.username = user.getUsername();
@@ -45,6 +50,8 @@ public class CreateForm {
         this.userid = user.getUserid();
         this.password1 = user.getPassword();
         this.email = user.getEmail();
+
+
     }
 
 

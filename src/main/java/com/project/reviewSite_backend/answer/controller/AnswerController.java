@@ -41,8 +41,7 @@ public class AnswerController {
     @PostMapping("/answer/create/post")
     public void starIn(@RequestParam(value = "files", required = false) List<MultipartFile> files, @RequestParam("userId") Long userId, @Valid CreateAnswerForm createAnswerForm) throws IOException {
         User user = userService.findUser(userId);
-
-        System.out.println("files :"+ files);
+        
         // 게시물 작성 후 db 저장 로직
         Answer answer = answerService.createAnswer(createAnswerForm, user);
         if (files == null) return;
@@ -79,9 +78,9 @@ public class AnswerController {
     //-------------------------------------------------------------------------------------
     //-리뷰 삭제 로직
     @DeleteMapping("/delete/{id}")
-    public Answer deleteAnswer(@PathVariable Long id, Answer answer) {
-        Answer deleteanswer = answerService.deleteById(id);
-        return deleteanswer;
+    public void deleteArticle(@PathVariable Long id, Answer answer) {
+         answerService.deleteArticle(id);
+
     }
 
     //-------------------------------------------------------------------------------------
