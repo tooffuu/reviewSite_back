@@ -1,5 +1,7 @@
 package com.project.reviewSite_backend.heart.controller;
 
+import com.project.reviewSite_backend.detail.domain.Detail;
+import com.project.reviewSite_backend.detail.service.DetailService;
 import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.heart.service.HeartService;
 import com.project.reviewSite_backend.user.domain.User;
@@ -16,6 +18,17 @@ import java.util.List;
 public class HeartController {
     private final HeartService heartService;
     private final UserService userService;
+    private final DetailService detailService;
+//    @PostMapping("/heart")
+//    public String heart(@RequestBody @Valid HeartDto heartDto, @RequestParam("userId") Long userId, String postId) {
+//
+//        User user = userService.findUser(userId);
+//        Detail detail = detailService.findDetail(postId);
+//
+//        heartService.clickHeart(heartDto, user, detail);
+//
+//        return "좋아요 눌림";
+//    }
 
     @PostMapping("/heart")
     public String heart(@RequestBody @Valid HeartDto heartDto, @RequestParam("userId") Long userId) {
@@ -26,6 +39,8 @@ public class HeartController {
 
         return "좋아요 눌림";
     }
+
+
 
     // detail 페이지의 좋아요 유무 가져오기
     @GetMapping("/heart/{postid}")

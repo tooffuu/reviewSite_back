@@ -16,7 +16,6 @@ public class AwsService {
 
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
-
     private final AmazonS3 amazonS3;
 
     public String sendFileToS3Bucket(MultipartFile file) throws IOException {

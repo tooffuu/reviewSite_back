@@ -79,8 +79,8 @@ public class AnswerController {
     //-리뷰 삭제 로직
     @DeleteMapping("/delete/{id}")
     public void deleteArticle(@PathVariable Long id, Answer answer) {
-         answerService.deleteArticle(id);
 
+         answerService.deleteArticle(id);
     }
 
     //-------------------------------------------------------------------------------------

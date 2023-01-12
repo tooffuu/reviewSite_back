@@ -1,13 +1,9 @@
 package com.project.reviewSite_backend.photo.controller;
 
 import com.project.reviewSite_backend.answer.AWS.AwsService;
-import com.project.reviewSite_backend.heart.dto.HeartDto;
-import com.project.reviewSite_backend.photo.domain.Photo;
 import com.project.reviewSite_backend.photo.dto.PhotoDto;
 import com.project.reviewSite_backend.photo.service.PhotoService;
-import com.project.reviewSite_backend.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,6 +25,7 @@ public class PhotoController {
         String imgUrl = awsService.sendFileToS3Bucket(file);
         return photoService.photo(imgUrl, null);
     }
+
     //---------------------------------------------------------------------------------------------
     //이미지 디테일ID로 불러오기
     @GetMapping("/answer/image")

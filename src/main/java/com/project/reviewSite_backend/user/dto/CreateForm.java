@@ -5,9 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 
-import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -42,7 +40,8 @@ public class CreateForm {
     @Email
     private String email;
 
-    private String userimg;
+    private String userImgUrl;
+
     public CreateForm (User user) {
         this.id = user.getId();
         this.username = user.getUsername();
@@ -50,8 +49,7 @@ public class CreateForm {
         this.userid = user.getUserid();
         this.password1 = user.getPassword();
         this.email = user.getEmail();
-
-
+        this.userImgUrl = user.getUserImgUrl();
     }
 
 

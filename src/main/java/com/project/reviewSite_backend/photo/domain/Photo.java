@@ -20,16 +20,12 @@ public class Photo {
 
     private String imgUrl;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    private Answer answer;
-
     private Long detailId;
 
     private String content;
 
     private String nickname;
 
-
-
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Answer answer;
 }

@@ -10,14 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PhotoDto {
-
     private Long id;
-
     private String content;
-
     private String nickname;
     private String imgUrl;
-
     private Long detailId;
 
     public PhotoDto(Photo photo){

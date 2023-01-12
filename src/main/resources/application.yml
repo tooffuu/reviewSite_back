@@ -27,15 +27,14 @@ spring:
       multipart:
         maxFileSize: 1000MB
         maxRequestSize: 1000MB
-
 cloud:
   aws:
     credentials:
-      accessKey: AKIAYIYSCH5T325LC2M6
-      secretKey: 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
+      accessKey: ${bucketAccessKey}
+      secretKey: ${bucketSecretKey}
     s3:
-      bucket: file-upload-ktw
-      dir: /
+      bucket: mytrip-bucket
+      dir : /
     region:
       static: ap-northeast-2
     stack:

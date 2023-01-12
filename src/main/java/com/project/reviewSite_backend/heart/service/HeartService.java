@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class HeartService {
-
     private final HeartRepository heartRepository;
+//    private final DetailRepository detailRepository;
 
     public void clickHeart(HeartDto heartDto, User user) {
         Optional<Heart> byHeartAndUser = heartRepository.findByUserAndPostid(user, heartDto.getPostid());
@@ -36,6 +36,37 @@ public class HeartService {
                 }
         );
     }
+
+//    public void clickHeart(HeartDto heartDto, User user, Detail detail) {
+//        Optional<Heart> byHeartAndUser = heartRepository.findByUserAndPostid(user, heartDto.getPostid());
+//
+//        byHeartAndUser.ifPresentOrElse(
+//                clickHeart -> {
+//
+//                    heartRepository.deleteByUserAndPostid(user, heartDto.getPostid());
+//                },
+//                () -> {
+//                    Heart heartUser = Heart.builder()
+//                            .postid(heartDto.getPostid())
+//                            .postName(heartDto.getPostName())
+//                            .user(user)
+//                            .build();
+//
+//                    heartRepository.save(heartUser);
+//
+//                    Detail detail1 = Detail.builder()
+//                            .postId(heartDto.getPostid())
+//                            .postName(heartDto.getPostName())
+//                            .build();
+//
+//                    if (detail.getPostId() == detail1.getPostId()) {
+//                        return;
+//                    }
+//
+//                    detailRepository.save(detail1);
+//                }
+//        );
+//    }
 
     public Boolean checkClickHeartDuplicate(String postid, User user) {
         return heartRepository.existsByPostidAndUser(postid, user);
