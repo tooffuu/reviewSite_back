@@ -2,15 +2,11 @@ package com.project.reviewSite_backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.reviewSite_backend.Profil.domain.Profil;
-import com.project.reviewSite_backend.Profil.dto.ProfilDto;
 import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.heart.domain.Heart;
-import com.project.reviewSite_backend.photo.domain.Photo;
-import com.project.reviewSite_backend.photo.dto.PhotoDto;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -44,8 +40,8 @@ public class User {
     @Column(unique = true, nullable = false)
     private String email;
 
-    @ColumnDefault("'https://file-upload-ktw.s3.ap-northeast-2.amazonaws.com/user.png'")
-
+    @Column(nullable = false)
+    private String userImgUrl;
 
     @Enumerated(EnumType.STRING)
     private UserRole userRole;

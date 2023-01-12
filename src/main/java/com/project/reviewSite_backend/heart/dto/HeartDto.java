@@ -13,9 +13,21 @@ public class HeartDto {
 
     private String postName;
 
+//    private List<PhotoUrlDto> photos;
+
     public HeartDto (Heart heart) {
         this.postid = heart.getPostid();
         this.postName = heart.getPostName();
-    }
 
+//        List<PhotoUrlDto> photoList = heart.getPhotos()
+//                .stream()
+//                .map((photo -> {
+//                    PhotoUrlDto photoUrlDto = new PhotoUrlDto(photo);
+//
+//                    return photoUrlDto;
+//                }))
+//                .collect(Collectors.toList());
+//
+//        this.photos = photoList;
+    }
 }

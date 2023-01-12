@@ -1,21 +1,21 @@
 package com.project.reviewSite_backend.user.controller;
 
-import com.amazonaws.services.s3.AmazonS3;
 import com.project.reviewSite_backend.answer.AWS.AwsService;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
+import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @RestController
@@ -23,14 +23,8 @@ import javax.validation.Valid;
 @RequestMapping("/api/v1/user")
 public class UserController {
     private final AwsService awsService;
+    private final PhotoService photoService;
     private final UserService userService;
-
-
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-    private final AmazonS3 amazonS3;
-
 
     @PostMapping("/join")
     public String getUser(@RequestBody @Valid CreateForm createForm, BindingResult bindingResult) {
@@ -77,8 +71,8 @@ public class UserController {
 
     //회원 정보 수정
     @PatchMapping("/editprofile")
-    public User modify(@RequestBody User user) {
-        return userService.modifyUser(user);
+    public CreateForm modify(CreateForm user, @RequestParam(value = "files", required = false) List<MultipartFile> files) {
+        return userService.modifyUser(user, files);
     }
 
     @DeleteMapping("/delete/{id}")
@@ -117,27 +111,4 @@ public class UserController {
 
         return null;
     }
-
-//    @PostMapping("/user/create/imgpost")
-//    public void starIn(@RequestParam(value = "files", required = false) MultipartFile files) throws IOException {
-//        System.out.println("files :"+ files);
-//        // 게시물 작성 후 db 저장 로직
-//        User user = userimgService.userimgcrate;
-//        if (files == null) return;
-//        files.stream()
-//                .forEach(file -> {
-//                    try {
-//                        // s3 bucket 업로드 로직
-//                        String userimgs = awsService.sendFileToS3Bucket(file);
-//                        // s3 bucket 업로드 후 imgUrl db 저장 로직
-//                        userimgService.userimgcrate(userimgs, user);
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                });
-//
-//    }
-
-
-
 }

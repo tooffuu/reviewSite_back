@@ -25,5 +25,4 @@ public class Heart {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;
-
 }

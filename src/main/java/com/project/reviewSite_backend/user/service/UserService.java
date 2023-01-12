@@ -1,7 +1,7 @@
 package com.project.reviewSite_backend.user.service;
 
-import com.project.reviewSite_backend.answer.domain.Answer;
-import com.project.reviewSite_backend.answer.dto.CreateAnswerForm;
+import com.amazonaws.services.s3.AmazonS3;
+import com.project.reviewSite_backend.answer.AWS.AwsService;
 import com.project.reviewSite_backend.bookmark.dao.BookmarkNameRepository;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
@@ -12,12 +12,15 @@ import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;
 import com.project.reviewSite_backend.user.dto.UpdatePasswordDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -25,17 +28,19 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-
+    private final AwsService awsService;
     private final PasswordEncoder passwordEncoder;
-
     private final BookmarkNameRepository bookmarkNameRepository;
+    private final AmazonS3 amazonS3;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
 
     public void joinUser(CreateForm createForm) {
         User user = User.builder()
-
                 .username(createForm.getUsername())
                 .nickname(createForm.getNickname())
                 .userid(createForm.getUserid())
+                .userImgUrl("https://file-upload-ktw.s3.ap-northeast-2.amazonaws.com/user.png")
                 .password(passwordEncoder.encode(createForm.getPassword1()))
                 .email(createForm.getEmail())
                 .userRole(UserRole.USER)
@@ -69,9 +74,10 @@ public class UserService {
     public boolean checkUseridDuplicate(String userid) {
         return userRepository.existsByUserid(userid);
     }
+
     public User getUser(String username) {
         Optional<User> user = userRepository.findByUserid(username);
-        return user.orElseThrow(() -> new UserNotFoundException("siteuser not found"));
+        return user.orElseThrow(() -> new UserNotFoundException("User not found"));
     }
 
     public boolean checkNicknameDuplicate(String nickname) {
@@ -85,38 +91,59 @@ public class UserService {
 
     //마이페이지 진입 전 회원 확인
     public CreateForm confirmPwd(User checkUser) {
-        Optional<User> ou = userRepository.findByUserid(checkUser.getUserid());
+        Optional<User> ou = userRepository.findById(checkUser.getId());
 
-        if(ou.isPresent()) {
-            User user= ou.get();
-            if(passwordEncoder.matches(checkUser.getPassword(), user.getPassword()))
-            {
+        if (ou.isPresent()) {
+            User user = ou.get();
+            if (passwordEncoder.matches(checkUser.getPassword(), user.getPassword())) {
                 CreateForm createForm = new CreateForm(user);
 
                 return createForm;
-            } throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
+            }
+            throw new PasswordNotMatchException("비밀번호가 일치하지 않습니다.");
 
-        } throw new UserNotFoundException("등록된 회원이 없습니다.");
+        }
+        throw new UserNotFoundException("등록된 회원이 없습니다.");
     }
 
     //회원 정보 수정
     @Transactional
-    public User modifyUser(User user) {
+    public CreateForm modifyUser(CreateForm user, List<MultipartFile> files) {
+        Optional<User> ou = userRepository.findById(user.getId());
 
-        Optional<User> ou = userRepository.findByUserid(user.getUserid());
-
-        if(ou.isPresent()){
+        if (ou.isPresent()) {
             User ru = ou.get();
             ru.setEmail(user.getEmail());
             ru.setNickname(user.getNickname());
-            ru.setPassword(passwordEncoder.encode(user.getPassword()));
+            ru.setPassword(passwordEncoder.encode(user.getPassword1()));
+            if (files != null) {
+                files.stream()
+                        .forEach(file -> {
+                            try {
+                                String image = ru.getUserImgUrl();
+                                String profileImage = image.substring(image.lastIndexOf("/") + 1, image.length());
+                                boolean existImage = amazonS3.doesObjectExist(bucket, profileImage);
+
+                                if (existImage == true) {
+                                    amazonS3.deleteObject(bucket, profileImage);
+                                }
+                                // s3 bucket 업로드 로직
+                                String imgUrl = awsService.sendFileToS3Bucket(file);
+                                // s3 bucket 업로드 후 imgUrl db 저장 로직
+                                ru.setUserImgUrl(imgUrl);
+
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        });
+            } else if (files == null) {
+                userRepository.save(ru);
+            }
             userRepository.save(ru);
-
             return user;
-        } throw new UserNotFoundException("등록된 회원이 없습니다.");
+        }
+        throw new UserNotFoundException("등록된 회원이 없습니다.");
     }
-
-
 
     public CreateForm deleteById(Long id) {
         try {
@@ -164,11 +191,13 @@ public class UserService {
 
     public User findUser(Long userId) {
 
-        if (userId == null){
+        if (userId == null) {
             return null;
         }
         User user = userRepository.findById(userId).orElseThrow();
 
         return user;
     }
+
+
 }

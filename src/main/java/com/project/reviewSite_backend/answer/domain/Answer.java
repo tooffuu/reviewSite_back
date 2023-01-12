@@ -39,7 +39,4 @@ public class Answer {
 
     @OneToMany(mappedBy = "answer", cascade = {CascadeType.ALL}, orphanRemoval = true)
     private List<Photo> imageList;
-
-
-
 }
