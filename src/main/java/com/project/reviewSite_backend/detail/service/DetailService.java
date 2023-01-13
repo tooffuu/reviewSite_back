@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class DetailService {
-
     private DetailRepository detailRepository;
     public void findDetail(String postId) {
 
