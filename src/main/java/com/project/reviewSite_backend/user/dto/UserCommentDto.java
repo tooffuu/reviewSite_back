@@ -9,13 +9,12 @@ import lombok.Setter;
 public class UserCommentDto {
 
     private Long id;
-
     private String nickname;
+    private String imgUrl;
 
     public UserCommentDto (User user) {
         this.id = user.getId();
         this.nickname = user.getNickname();
-
+        this.imgUrl = user.getUserImgUrl();
     }
-
 }

@@ -18,7 +18,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -107,15 +106,17 @@ public class UserService {
     }
 
     //회원 정보 수정
-    @Transactional
     public CreateForm modifyUser(CreateForm user, List<MultipartFile> files) {
         Optional<User> ou = userRepository.findById(user.getId());
 
         if (ou.isPresent()) {
             User ru = ou.get();
+            ru.setUserid(user.getUserid());
+            ru.setUsername(user.getUsername());
             ru.setEmail(user.getEmail());
             ru.setNickname(user.getNickname());
             ru.setPassword(passwordEncoder.encode(user.getPassword1()));
+
             if (files != null) {
                 files.stream()
                         .forEach(file -> {
@@ -137,10 +138,13 @@ public class UserService {
                             }
                         });
             } else if (files == null) {
+                ru.setUserImgUrl(user.getUserImgUrl());
                 userRepository.save(ru);
             }
-            userRepository.save(ru);
-            return user;
+
+            User user1 = userRepository.save(ru);
+            CreateForm createForm = new CreateForm(user1);
+            return createForm;
         }
         throw new UserNotFoundException("등록된 회원이 없습니다.");
     }

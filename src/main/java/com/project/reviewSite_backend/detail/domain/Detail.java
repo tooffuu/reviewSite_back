@@ -22,4 +22,5 @@ public class Detail {
     private String postId;
 
     private String postName;
+
 }
