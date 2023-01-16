@@ -204,4 +204,8 @@ public class UserService {
     }
 
 
+    public User findnickname(String nickname) {
+
+        return userRepository.findBynickname(nickname);
+    }
 }
