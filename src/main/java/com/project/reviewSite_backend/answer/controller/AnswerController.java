@@ -107,4 +107,12 @@ public class AnswerController {
 
         return answerVoList;
     }
+    @GetMapping("/comment/nickname")
+    public List<AnswerVo> findCommentBynickname(@RequestParam("nickname") String nickname) {
+        User user = userService.findnickname(nickname);
+
+        List<AnswerVo> answerVoList = answerService.findCommentByUserId(user);
+
+        return answerVoList;
+    }
 }
