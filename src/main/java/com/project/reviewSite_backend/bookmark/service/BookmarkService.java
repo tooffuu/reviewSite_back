@@ -73,4 +73,9 @@ public class BookmarkService {
 
         }
     }
+
+
+    public List<BookmarkDto> getbookmarkdata(User user) {
+        return bookmarkRepository.findByUser(user);
+    }
 }

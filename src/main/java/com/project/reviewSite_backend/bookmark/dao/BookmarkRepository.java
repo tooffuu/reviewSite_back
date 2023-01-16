@@ -22,4 +22,5 @@ public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     @Transactional
     void deleteByPostId(String postId);
+
 }

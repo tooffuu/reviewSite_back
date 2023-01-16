@@ -66,4 +66,9 @@ public class BookmarkNameController {
         return "삭제 완료";
     }
 
+
+
+
+
+
 }

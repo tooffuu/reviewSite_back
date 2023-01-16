@@ -1,5 +1,6 @@
 package com.project.reviewSite_backend.bookmark.controller;
 
+import com.project.reviewSite_backend.bookmark.domain.Bookmark;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.bookmark.dto.BookmarkDto;
 import com.project.reviewSite_backend.bookmark.service.BookmarkNameService;
@@ -66,6 +67,13 @@ public class BookmarkController {
         return "삭제 완료";
     }
 
+    //youplaec 데이터 조회
+    @GetMapping("/data/{id}")
+    public List<BookmarkDto> getdata (@PathVariable Long id){
+        User user = userService.findUser(id);
+
+        return bookmarkService.getbookmarkdata(user);
+    }
 
 
 }
