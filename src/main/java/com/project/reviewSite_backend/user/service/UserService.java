@@ -2,10 +2,14 @@ package com.project.reviewSite_backend.user.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.project.reviewSite_backend.answer.AWS.AwsService;
+import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.bookmark.dao.BookmarkNameRepository;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.exception.PasswordNotMatchException;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
+import com.project.reviewSite_backend.photo.domain.Photo;
+import com.project.reviewSite_backend.photo.dto.PhotoDto;
+import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.UserRole;
 import com.project.reviewSite_backend.user.dao.UserRepository;
 import com.project.reviewSite_backend.user.domain.User;
@@ -31,6 +35,8 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final BookmarkNameRepository bookmarkNameRepository;
     private final AmazonS3 amazonS3;
+
+    private final PhotoService photoService;
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
@@ -152,7 +158,16 @@ public class UserService {
     public CreateForm deleteById(Long id) {
         try {
             userRepository.deleteById(id);
+            List<Photo> photoList = photoService.findByall();
 
+            photoList
+                    .stream()
+                    .forEach(photoDto -> {
+                        String imgUrl = photoDto.getImgUrl();
+                        String filename = imgUrl.substring(imgUrl.lastIndexOf("/") + 1, imgUrl.length());
+                        amazonS3.deleteObject(bucket, filename);
+
+                    });
             return deleteById(id);
         } catch (EmptyResultDataAccessException e) {
 
@@ -160,6 +175,10 @@ public class UserService {
         }
 
     }
+
+
+
+
 
     public String findId(String username, String email) {
         User user = userRepository.findByUsernameAndEmail(username, email);

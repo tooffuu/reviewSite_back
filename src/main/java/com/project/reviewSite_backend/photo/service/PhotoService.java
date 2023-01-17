@@ -50,11 +50,13 @@ public class PhotoService {
 
     public List<PhotoDto> findBypostDitailId(Long detailId) {
         return photoRepository.findByDetailId(detailId);
-
     }
-
 
     public List<PhotoDto> getphotoimgByAnswer(Answer answer) {
         return photoRepository.findByAnswer(answer);
+    }
+
+    public List<Photo> findByall() {
+        return photoRepository.findAll();
     }
 }
