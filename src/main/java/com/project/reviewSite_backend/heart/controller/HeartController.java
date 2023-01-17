@@ -4,6 +4,10 @@ import com.project.reviewSite_backend.detail.domain.Detail;
 import com.project.reviewSite_backend.detail.service.DetailService;
 import com.project.reviewSite_backend.heart.dto.HeartDto;
 import com.project.reviewSite_backend.heart.service.HeartService;
+import com.project.reviewSite_backend.photo.dao.PhotoRepository;
+import com.project.reviewSite_backend.photo.domain.Photo;
+import com.project.reviewSite_backend.photo.dto.PhotoDto;
+import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +22,11 @@ import java.util.List;
 public class HeartController {
     private final HeartService heartService;
     private final UserService userService;
+
+    private final PhotoService photoService;
+
     private final DetailService detailService;
+    private final PhotoRepository photoRepository;
 //    @PostMapping("/heart")
 //    public String heart(@RequestBody @Valid HeartDto heartDto, @RequestParam("userId") Long userId, String postId) {
 //
@@ -31,11 +39,21 @@ public class HeartController {
 //    }
 
     @PostMapping("/heart")
-    public String heart(@RequestBody @Valid HeartDto heartDto, @RequestParam("userId") Long userId) {
+    public String heart(@RequestBody @Valid HeartDto heartDto, @RequestParam("userId") Long userId,@RequestParam("detailId")Long detailId) {
 
-        User user = userService.findUser(userId);
+        try{
+            PhotoDto photoDto = this.photoRepository.findByDetailId(detailId).get(0);
 
-        heartService.clickHeart(heartDto, user);
+            User user = userService.findUser(userId);
+
+            heartService.clickHeart(heartDto, user , photoDto);
+        }catch (IndexOutOfBoundsException indexOutOfBoundsException){
+            User user = userService.findUser(userId);
+            heartService.clickHeart(heartDto, user , null);
+        }
+
+
+
 
         return "좋아요 눌림";
     }
@@ -60,5 +78,17 @@ public class HeartController {
 
         return heartDto;
     }
+
+    // 다른 유저의 찜 목록 가져오기
+@GetMapping("heart/nickname")
+public List<HeartDto> findYourHeartByNickname(@RequestParam("nickname")String nickname){
+        User user = userService.findnickname(nickname);
+
+        List<HeartDto> heartDtos = heartService.findPostByUserId(user);
+
+        return heartDtos;
+
+}
+
 
 }

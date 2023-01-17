@@ -2,6 +2,9 @@ package com.project.reviewSite_backend.heart.domain;
 
 import com.project.reviewSite_backend.user.domain.User;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
@@ -9,6 +12,8 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Builder
+@DynamicInsert
+@DynamicUpdate
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Heart {
@@ -22,6 +27,10 @@ public class Heart {
 
     @Column(nullable = false)
     private String postName;
+
+    @Column(nullable = false)
+    @ColumnDefault("'https://file-upload-ktw.s3.ap-northeast-2.amazonaws.com/user.png'")
+    private String img;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private User user;

@@ -1,7 +1,9 @@
 package com.project.reviewSite_backend.user.controller;
 
 import com.project.reviewSite_backend.answer.AWS.AwsService;
+import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.exception.UserNotFoundException;
+import com.project.reviewSite_backend.photo.dto.PhotoDto;
 import com.project.reviewSite_backend.photo.service.PhotoService;
 import com.project.reviewSite_backend.user.domain.User;
 import com.project.reviewSite_backend.user.dto.CreateForm;

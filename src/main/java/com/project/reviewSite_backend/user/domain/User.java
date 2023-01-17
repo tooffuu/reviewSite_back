@@ -7,6 +7,7 @@ import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.heart.domain.Heart;
 import com.project.reviewSite_backend.user.UserRole;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -42,6 +43,7 @@ public class User {
     private String email;
 
     @Column(nullable = false)
+    @ColumnDefault("'https://file-upload-ktw.s3.ap-northeast-2.amazonaws.com/user.png'")
     private String userImgUrl;
 
     @Enumerated(EnumType.STRING)
