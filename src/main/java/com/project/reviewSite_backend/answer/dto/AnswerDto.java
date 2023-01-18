@@ -26,7 +26,6 @@ public class AnswerDto {
 
     private String nickname;
 
-
     private List<PhotoDto> imageList;
 
     public AnswerDto(Answer answer) {

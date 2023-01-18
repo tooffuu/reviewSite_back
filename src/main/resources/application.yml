@@ -11,8 +11,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/siteuser?serverTimezone=Asia/Seoul
-    username: root
-    password:
+    username: sbsst
+    password: sbs123414
 
   jpa:
     properties:
@@ -21,18 +21,17 @@ spring:
           format_sql:true
         use_sql_comments: true
     hibernate:
-      #            ddl-auto: create
+#                  ddl-auto: create
       ddl-auto: update
     servlet:
       multipart:
         maxFileSize: 1000MB
         maxRequestSize: 1000MB
-
 cloud:
   aws:
     credentials:
-      accessKey: AKIAYIYSCH5TQ7E5A6ID
-      secretKey: 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
+      accessKey:
+      secretKey:
     s3:
       bucket: file-upload-ktw
       dir: /
