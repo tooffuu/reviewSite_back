@@ -1,7 +1,7 @@
 package com.project.reviewSite_backend.user.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.project.reviewSite_backend.Profil.domain.Profil;
+import com.project.reviewSite_backend.profile.domain.Profile;
 import com.project.reviewSite_backend.answer.domain.Answer;
 import com.project.reviewSite_backend.bookmark.domain.BookmarkName;
 import com.project.reviewSite_backend.heart.domain.Heart;
@@ -62,7 +62,7 @@ public class User {
 
 
     @OneToMany(mappedBy = "user", cascade =CascadeType.ALL, orphanRemoval = true)
-    private List<Profil> imageList;
+    private List<Profile> imageList;
 
     public void update(String password1, String password2) {
         this.password = password1;

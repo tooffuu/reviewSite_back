@@ -43,8 +43,6 @@ public class AnswerDto {
 
         this.nickname = answer.getNickname();
 
-
-
         List<PhotoDto> photoeDtoList = answer.getImageList()
                 .stream()
                 .map(photo -> {

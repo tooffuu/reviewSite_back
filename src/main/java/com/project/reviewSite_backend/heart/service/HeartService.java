@@ -16,12 +16,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class HeartService {
     private final HeartRepository heartRepository;
-//    private final DetailRepository detailRepository;
 
     public void clickHeart(HeartDto heartDto, User user, PhotoDto photoDto) {
         Optional<Heart> byHeartAndUser = heartRepository.findByUserAndPostid(user, heartDto.getPostid());
         Optional<PhotoDto> opphotoDto = Optional.ofNullable(photoDto);
-        System.out.println("값이 찍히나?"+opphotoDto);
         byHeartAndUser.ifPresentOrElse(
                 clickHeart -> {
 

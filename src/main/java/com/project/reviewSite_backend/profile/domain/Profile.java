@@ -1,4 +1,4 @@
-package com.project.reviewSite_backend.Profil.domain;
+package com.project.reviewSite_backend.profile.domain;
 
 
 import com.project.reviewSite_backend.user.domain.User;
@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Profil {
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

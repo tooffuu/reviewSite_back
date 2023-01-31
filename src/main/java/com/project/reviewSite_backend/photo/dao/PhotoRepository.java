@@ -11,9 +11,6 @@ public interface PhotoRepository extends JpaRepository<Photo, Long> {
 
     List<Photo> findByIdIn(List<Long> imageIdList);
 
-//    List<PhotoDto> findBydetailId(Long detailId);
-
-
     List<PhotoDto> findByAnswer(Answer answer);
 
     List<PhotoDto> findByDetailId(Long detailId);
